@@ -3,6 +3,7 @@
 - [Data-flow diagram](NotesApp-Numbered-DFD-English.pdf): numbered flows and trust boundaries.
 - [STRIDE and risk analysis](NotesApp-STRIDE-English.xlsx): threats, likelihood and impact ratings, and three priority risks with proposed fixes.
 
-The workbook has three sheets: **STRIDE**, **Risk analysis**, and **Top 3**.
-Likelihood and impact are each rated from 1 to 3. Risk is likelihood multiplied by impact.
-The ratings are initial judgments from reading the code. The fixes are proposals and have not been implemented.
+The workbook has two sheets: **STRIDE and risk** and **Top 3**.
+It lists one main threat for each of the 16 flows and covers all six STRIDE categories.
+Likelihood and impact use 1 = low, 2 = medium and 3 = high. Risk = likelihood x impact.
+The ratings come from reading the code. The fixes are suggestions and have not been implemented.
