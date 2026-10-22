@@ -6,6 +6,7 @@
     {% for c in classes %}
     <li>{{ c.name }}
       <a class="small" href="{{ url_for('export_csv') }}?class_id={{ c.id }}">export CSV</a>
+      <a class="small" href="{{ url_for('export_signed_csv') }}?class_id={{ c.id }}">export CSV + HMAC</a>
     </li>
     {% endfor %}
   </ul>

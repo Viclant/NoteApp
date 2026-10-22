@@ -12,6 +12,7 @@ import time
 import base64
 import hashlib
 import subprocess
+import zipfile
 
 import psycopg2
 import psycopg2.extras
@@ -19,6 +20,10 @@ from flask import (
     Flask, request, session, redirect, url_for,
     render_template, Response, jsonify, abort,
 )
+from comment_crypto import (
+    ENCRYPTED_PREFIX, decrypt_comment, encrypt_comment, load_comment_key,
+)
+from csv_hmac import sign_csv
 
 # --- Configuration ------------------------------------------------------------
 # All configuration comes from the environment (set in docker-compose.yml).
@@ -52,6 +57,33 @@ def get_db():
     )
     conn.autocommit = True
     return conn
+
+
+def migrate_comments():
+    """Encrypt old comments once, keeping existing encrypted comments unchanged."""
+    load_comment_key()
+    conn = get_db()
+    conn.autocommit = False
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT id, comment FROM notes ORDER BY id FOR UPDATE")
+        for note in cur.fetchall():
+            comment = note["comment"]
+            if comment is None:
+                continue
+            if comment.startswith(ENCRYPTED_PREFIX):
+                decrypt_comment(comment)  # Also checks that the configured key is correct.
+            else:
+                cur.execute(
+                    "UPDATE notes SET comment = %s WHERE id = %s",
+                    (encrypt_comment(comment), note["id"]),
+                )
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
 
 
 # --- Minimal JWT (deliberately weak) ------------------------------------------
@@ -195,6 +227,8 @@ def dashboard():
     )
     notes = cur.fetchall()
     conn.close()
+    for note in notes:
+        note["comment"] = decrypt_comment(note["comment"])
     return render_template("dashboard.html", notes=notes, token=session.get("token"))
 
 
@@ -218,6 +252,7 @@ def api_notes(note_id):
     conn.close()
     if not note:
         return jsonify({"error": "not found"}), 404
+    note["comment"] = decrypt_comment(note["comment"])
     note["grade"] = float(note["grade"]) if note["grade"] is not None else None
     return jsonify(note)
 
@@ -241,6 +276,8 @@ def teacher():
     cur.execute("SELECT id, username FROM users WHERE role = 'student' ORDER BY username")
     students = cur.fetchall()
     conn.close()
+    for note in notes:
+        note["comment"] = decrypt_comment(note["comment"])
     return render_template("teacher.html", classes=classes, notes=notes, students=students)
 
 
@@ -253,7 +290,7 @@ def grades():
     student_id = request.form.get("student_id")
     class_id = request.form.get("class_id")
     grade = request.form.get("grade")
-    comment = request.form.get("comment", "")
+    comment = encrypt_comment(request.form.get("comment", ""))
     conn = get_db()
     cur = conn.cursor()
     if note_id:
@@ -273,6 +310,7 @@ def grades():
 
 
 @app.route("/export.csv")
+@app.route("/export-signed.zip", endpoint="export_signed_csv")
 def export_csv():
     if not login_required("teacher"):
         return redirect(url_for("login"))
@@ -299,10 +337,24 @@ def export_csv():
     writer = csv.writer(buf)
     writer.writerow(["student", "class", "grade", "comment"])
     for r in rows:
-        writer.writerow([r["student"], r["class"], r["grade"], r["comment"]])
+        writer.writerow([r["student"], r["class"], r["grade"], decrypt_comment(r["comment"])])
+    csv_bytes = buf.getvalue().encode("utf-8")
+    signature = sign_csv(csv_bytes)
+    if request.path == "/export-signed.zip":
+        archive = io.BytesIO()
+        with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as output:
+            output.writestr("grades.csv", csv_bytes)
+            output.writestr("grades.csv.hmac", signature + "\n")
+        return Response(
+            archive.getvalue(), mimetype="application/zip",
+            headers={"Content-Disposition": "attachment; filename=grades-signed.zip"},
+        )
     return Response(
-        buf.getvalue(), mimetype="text/csv",
-        headers={"Content-Disposition": "attachment; filename=grades.csv"},
+        csv_bytes, mimetype="text/csv",
+        headers={
+            "Content-Disposition": "attachment; filename=grades.csv",
+            "X-CSV-HMAC-SHA256": signature,
+        },
     )
 
 
@@ -390,5 +442,6 @@ def healthz():
 
 
 if __name__ == "__main__":
+    migrate_comments()
     # Plain HTTP on purpose (flaw #3). Nginx + TLS is added in a later lab.
     app.run(host="0.0.0.0", port=5000, debug=True)
