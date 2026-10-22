@@ -4,6 +4,12 @@ A small grades application used throughout the Computer Security course. Teacher
 record grades and comments for their classes, students read their own grades, and an
 admin manages users and classes.
 
+## Student information
+
+- Student ID: 2023905420
+- Name: WU YANLAN
+- English name: Viclant
+
 ## Run it
 
 You need Docker with the Compose plugin.
