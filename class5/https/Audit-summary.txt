@@ -1,0 +1,26 @@
+NOTESAPP TRANSIT AUDIT
+Pair names: WU YANLAN / CHEN ZIMING
+
+FINDING 1 - Login over plain HTTP
+Exposed: The username and password are readable in the POST /login request.
+Evidence: the local before-http.png capture shows this exact line:
+username=alice&password=alicepw
+The original HTTP screenshot is kept locally because it also contains browser login cookies.
+Who could read it: Someone able to capture the unencrypted traffic between the browser and server.
+Severity: High, because the password could be stolen and used to log in as the user.
+Fix: Use HTTPS through nginx and stop publishing the Flask app's HTTP port 8080.
+
+FIX VERIFIED - HTTPS re-test
+Password readable? No readable username or password was visible in the HTTPS stream screenshot.
+Evidence: after-https-packets.png shows localhost traffic on port 443, with TLSv1.3 and Application Data. after-https.png shows the port-443 TCP stream as binary data.
+Result: The HTTPS capture shows encrypted application traffic, unlike the readable HTTP login form.
+
+FINDING 2 - Certificate trust
+GitHub certificate issued by: Sectigo Public Server Authentication CA DV E36
+Evidence: github-certificate.png shows the issuer and the chain to Sectigo Public Server Authentication Root E46.
+Local certificate issued by: localhost (CN=localhost, self-signed)
+Trust the local certificate lacks: A certificate chain to a CA trusted by the browser.
+Verdict: HTTPS encrypts the traffic, but encryption alone does not prove the server's identity.
+
+STATE
+NotesApp is running over HTTPS with a self-signed certificate for this lab. Flask's port 8080 is no longer published on the host.

@@ -1,0 +1,87 @@
+{
+  "target": "isolated C5 stack",
+  "https_certificate_verification": "enabled with the local CA file",
+  "database_isolation": "viclant-c5-check-db-1",
+  "all_passed": true,
+  "checks": [
+    {
+      "name": "https_health_with_ca_verification",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "http_redirects_to_https",
+      "passed": true,
+      "status": 301,
+      "location": "https://localhost/healthz"
+    },
+    {
+      "name": "alice_initially_has_legacy_password",
+      "passed": true
+    },
+    {
+      "name": "wrong_legacy_password_rejected_without_migration",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "correct_legacy_login_upgrades_to_argon2id",
+      "passed": true,
+      "status": 302
+    },
+    {
+      "name": "upgraded_account_can_open_dashboard",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "second_correct_login_preserves_hash",
+      "passed": true,
+      "status": 302
+    },
+    {
+      "name": "wrong_argon2_password_rejected_without_change",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "nonexistent_user_rejected",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "admin_can_log_in",
+      "passed": true,
+      "status": 302
+    },
+    {
+      "name": "new_student_is_hashed_before_first_login",
+      "passed": true,
+      "status": 302
+    },
+    {
+      "name": "new_student_can_log_in_without_rewriting_hash",
+      "passed": true,
+      "status": 302
+    },
+    {
+      "name": "malformed_argon2_rejected_without_server_error",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "web_has_no_published_host_ports",
+      "passed": true
+    },
+    {
+      "name": "nginx_has_published_host_ports",
+      "passed": true
+    }
+  ],
+  "summary": {
+    "alice_storage": "argon2id",
+    "new_student_storage": "argon2id",
+    "web_published_host_ports": false,
+    "nginx_published_host_ports": true
+  }
+}

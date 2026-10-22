@@ -1,0 +1,30 @@
+{
+  "measured_at_utc": "2026-10-22T09:50:14.456307+00:00",
+  "python_version": "3.11.17",
+  "environment": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+  "argon2_cffi_version": "23.1.0",
+  "md5": {
+    "operations": 100000,
+    "elapsed_seconds": 0.03149475899999743,
+    "guesses_per_second": 3175131.4559990177,
+    "estimated_guesses_per_day": 274331357798.31512
+  },
+  "argon2": {
+    "operations": 1,
+    "elapsed_seconds": 0.04536645400003181,
+    "ms_per_guess": 45.36645400003181,
+    "guesses_per_second": 22.0427190540239,
+    "estimated_guesses_per_day": 1904490.926267665,
+    "parameters": {
+      "type": "ID",
+      "time_cost": 3,
+      "memory_cost_kib": 65536,
+      "parallelism": 4,
+      "hash_len": 32,
+      "salt_len": 16
+    }
+  },
+  "argon2_slower_factor": 144044.45514263347,
+  "method": "Course exercise: 100,000 MD5 hashes and one default PasswordHasher hash of 'guess'.",
+  "limit": "One local CPU/container measurement; rates and one-day values are estimates, not GPU results."
+}

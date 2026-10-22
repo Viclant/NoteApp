@@ -1,0 +1,22 @@
+{
+  "measured_at_utc": "2026-10-22T09:48:31.302912+00:00",
+  "scope": "Six course practice accounts only; dictionary attack, no extra rules.",
+  "wordlist_url": "https://kristenpire.github.io/epita-security-labs/class5/assets/common-passwords.txt",
+  "wordlist_sha256": "3614d52dbb45e8b0080821bdf1a0c0ad2cbac2cc85551239f4f2bc2a9ebc5e3f",
+  "candidate_count": 170,
+  "account_count": 6,
+  "cracked_count": 4,
+  "recovered": {
+    "liwei": "123456",
+    "aisha": "password1",
+    "tomk": "qwerty123",
+    "sofia": "iloveyou"
+  },
+  "not_recovered": [
+    "marie",
+    "raj"
+  ],
+  "elapsed_seconds": 0.00014790000022912864,
+  "elapsed_ms": 0.14790000022912864,
+  "timing_scope": "Candidate hashing and digest comparisons; excludes file reading and printing."
+}

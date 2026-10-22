@@ -1,0 +1,21 @@
+NOTESAPP PASSWORD AUDIT
+Pair: WU YANLAN / CHEN ZIMING
+Date: 22 October 2026
+
+FINDING 1 - Stored passwords with unsalted MD5
+Cracked: 4/6 in 0.1479 ms using the public wordlist of 170 passwords.
+Why those fell: Their passwords were in the wordlist. MD5 lets an attacker compare guesses very quickly.
+Held out and why: marie (mariepw) and raj (Gv7#pLm2!xQ) were not in this wordlist. marie's password follows a predictable pattern; raj's is long and random. Surviving this list alone does not prove a password is safe.
+Severity: High, because four passwords could be recovered quickly from the leaked practice hashes.
+Fix: Store passwords with Argon2id and a random salt.
+
+FINDING 2 - The fix measured
+Hash       Guesses per second       Estimated guesses per day
+MD5        3,175,131                274,331,357,798
+Argon2     22.04                    1,904,491
+Argon2 took 45.37 ms for one hash and was about 144,044 times slower per guess.
+Method: 100,000 MD5 hashes and one Argon2 hash inside the same web container. Argon2id parameters: 64 MiB memory, 3 iterations, parallelism 4. Daily values are the measured rate multiplied by 86,400.
+Verdict: MD5 makes large guessing attacks cheap. Argon2 makes each guess much more expensive, but common passwords can still be guessed.
+
+STATE
+NotesApp now supports Argon2 login and migration. Alice changed from plain text to an Argon2id hash after a successful login. A second login worked and wrong passwords were rejected. Other legacy accounts migrate on their next successful login. New accounts store Argon2id hashes immediately. HTTPS is still running.

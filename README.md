@@ -91,6 +91,54 @@ To run the small encryption and HMAC tests:
 docker compose exec web python -m unittest test_homework -v
 ```
 
+## C5a: HTTPS
+
+Nginx accepts HTTPS on port 443 and redirects port 80 to HTTPS. The HTTPS overlay
+removes the direct Flask port 8080. Both IPv4 and IPv6 localhost are supported.
+
+After creating `.env`, build the app and generate a local certificate:
+
+```
+docker compose build web
+docker compose run --rm --no-deps web python make_certificate.py
+docker compose -f docker-compose.yml -f docker-compose.https.yml up -d
+```
+
+Open `https://localhost`. The certificate is self-signed for this lab, so the
+browser shows a trust warning. Its issuer is localhost rather than a trusted CA.
+The generation script keeps an existing certificate and key unchanged.
+The `nginx/certs` directory stays local and is ignored by Git.
+
+Check HTTPS and the HTTP redirect:
+
+```
+curl --cacert nginx/certs/notesapp.crt https://localhost/healthz
+curl -I http://localhost
+```
+
+The first command should return `ok`; the second should return a redirect to HTTPS.
+Use `curl.exe` for these commands in Windows PowerShell.
+The traffic audit and captures are in [class5/https](class5/https).
+
+## C5b: Argon2 password storage
+
+New accounts store Argon2id hashes. Old accounts still work: after a correct
+password check, the login replaces the old plain-text value with an Argon2 hash.
+Later logins verify that hash. Incorrect passwords do not migrate the account.
+Invalid stored hashes are rejected as failed logins. A hash with old parameters
+is refreshed after a successful login.
+
+After logging in as Alice, check her stored password:
+
+```
+docker compose exec db psql -U notesapp -d notesapp -c "SELECT username, password FROM users WHERE username = 'alice';"
+docker compose exec web python -m unittest test_homework test_passwords -v
+```
+
+The password value should start with `$argon2id$`. Log out and log back in to
+check the migrated account. The password audit and measured results are in
+[class5/passwords](class5/passwords).
+
 ## Reset
 
 ```
