@@ -3,9 +3,9 @@ Pair names: WU YANLAN / CHEN ZIMING
 
 FINDING 1 - Login over plain HTTP
 Exposed: The username and password are readable in the POST /login request.
-Evidence: the local before-http.png capture shows this exact line:
+Evidence: before-http.png shows POST /login and this practice-account form body:
 username=alice&password=alicepw
-The original HTTP screenshot is kept locally because it also contains browser login cookies.
+Request Cookie and response Set-Cookie values are redacted in the published screenshot.
 Who could read it: Someone able to capture the unencrypted traffic between the browser and server.
 Severity: High, because the password could be stolen and used to log in as the user.
 Fix: Use HTTPS through nginx and stop publishing the Flask app's HTTP port 8080.

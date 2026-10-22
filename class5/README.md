@@ -7,12 +7,13 @@ Pair: WU YANLAN / CHEN ZIMING
 ## C5a: HTTPS
 
 - [Traffic audit](https/Audit-summary.txt)
+- [HTTP login stream (cookies redacted)](https/before-http.png)
 - [HTTPS stream](https/after-https.png)
 - [TLS packet list](https/after-https-packets.png)
 - [GitHub certificate issuer](https/github-certificate.png)
 
-The HTTP audit records the observed login form line. The original HTTP screenshot
-is kept locally because it also contains browser login cookies.
+The HTTP screenshot keeps the POST /login request and practice-account password
+line visible. Cookie and Set-Cookie values are redacted. The original stays local.
 
 ## C5b: password storage
 
