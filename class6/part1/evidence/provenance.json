@@ -52,10 +52,12 @@
     "Exact course-platform hand-in format was not present in supplied slides."
   ],
   "files": {
-    "Authentication-Part1-Wu-Yanlan.pdf": "327b0a30e279176f15723d837d36aee0019d0f2f2054ce19497e472f6e6b3ea3",
-    "README.md": "eacd3126063430ac447d70b4f49a23a570f0cebc65ef8aa243a0379819605846",
+    "Authentication-Part1-Wu-Yanlan.pdf": "d8df54edb22152c186667b7f30af02ecaf90a3b7b4358205325a989533a75fe3",
+    "README.md": "0d6c6ba96a650b209a8e67a84952f14fe8e34220db139a6b3f52141f8fc2941f",
     "evidence/response-excerpt.png": "4219303c7ec6f8277ea323d1e9929a352d04cf7319e584658112139ca7ce0e8c",
     ".gitattributes": "cc6bdc4367f8354c403648e8f4011eb56ce574e78aa70b2a01e7e1e6d3a00bda"
   },
-  "checkout_integrity": "PDF and PNG are binary; documentation uses LF via .gitattributes."
+  "checkout_integrity": "PDF and PNG are binary; documentation uses LF via .gitattributes.",
+  "report_revised_at": "2026-10-31T06:21:50+08:00",
+  "report_style": "One-page classroom lab report"
 }
