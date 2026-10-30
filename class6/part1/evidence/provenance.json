@@ -54,6 +54,8 @@
   "files": {
     "Authentication-Part1-Wu-Yanlan.pdf": "327b0a30e279176f15723d837d36aee0019d0f2f2054ce19497e472f6e6b3ea3",
     "README.md": "eacd3126063430ac447d70b4f49a23a570f0cebc65ef8aa243a0379819605846",
-    "evidence/response-excerpt.png": "4219303c7ec6f8277ea323d1e9929a352d04cf7319e584658112139ca7ce0e8c"
-  }
+    "evidence/response-excerpt.png": "4219303c7ec6f8277ea323d1e9929a352d04cf7319e584658112139ca7ce0e8c",
+    ".gitattributes": "cc6bdc4367f8354c403648e8f4011eb56ce574e78aa70b2a01e7e1e6d3a00bda"
+  },
+  "checkout_integrity": "PDF and PNG are binary; documentation uses LF via .gitattributes."
 }
