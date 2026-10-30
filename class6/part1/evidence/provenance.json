@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "prepared_at": "2026-10-31T05:47:46+08:00",
+  "student": {
+    "name": "WU YANLAN",
+    "id": "2023905420"
+  },
+  "scope": "Authentication / Class 6 / Part 1 only",
+  "source_screenshot": {
+    "basename": "AutheP1.png",
+    "sha256": "0436b3aa589631481befd0f033156aa713b114bbf9443f435e100a4ea010c747",
+    "size_pixels": [
+      2559,
+      1438
+    ],
+    "displayed_taskbar_local_time": "2026-10-27 17:19",
+    "time_caveat": "Displayed system time, not independently authenticated.",
+    "original_unchanged_and_kept_local": true
+  },
+  "excerpt": {
+    "path": "evidence/response-excerpt.png",
+    "source_rectangle_pixels_xyxy": [
+      0,
+      342,
+      800,
+      590
+    ],
+    "method": "Image-backed PDF viewport rendered to PNG; unchanged response only.",
+    "omitted": "Request command lines and unrelated desktop content.",
+    "sha256": "4219303c7ec6f8277ea323d1e9929a352d04cf7319e584658112139ca7ce0e8c"
+  },
+  "reviewed_source": {
+    "repository": "Viclant/NoteApp",
+    "commit": "e4a88a5a5e79f6307c99beb7b1506a2b870a4e99",
+    "path": "web/app.py",
+    "sha256": "5b44714ed549b319534f498177d92136b05f50dc7e11501459b2da423b507cfc",
+    "git_blob_sha": "5e59863c0ce96eaba3b8b44c5f938ed0ada71d4f",
+    "historical_capture_build_not_independently_verified": true
+  },
+  "preparation_validation": {
+    "new_authentication_bypass_requests": 0,
+    "new_attack_execution": false,
+    "application_fix_implemented": false,
+    "negative_controls_run": false,
+    "before_run_prediction_preserved": false,
+    "partner_name_available": false
+  },
+  "limitations": [
+    "Screenshot does not display the token or HTTP status.",
+    "No unauthenticated control or server log is preserved.",
+    "Response alone does not establish teacher-only privilege elevation.",
+    "Exact course-platform hand-in format was not present in supplied slides."
+  ],
+  "files": {
+    "Authentication-Part1-Wu-Yanlan.pdf": "327b0a30e279176f15723d837d36aee0019d0f2f2054ce19497e472f6e6b3ea3",
+    "README.md": "eacd3126063430ac447d70b4f49a23a570f0cebc65ef8aa243a0379819605846",
+    "evidence/response-excerpt.png": "4219303c7ec6f8277ea323d1e9929a352d04cf7319e584658112139ca7ce0e8c"
+  }
+}

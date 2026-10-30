@@ -174,3 +174,9 @@ docker compose up --build
 ```
 
 A plain `docker compose up` would keep running the old image.
+
+## C6: Authentication, Part 1
+
+The [Part 1 submission](class6/part1) contains the English PDF report, a response
+excerpt from the existing classroom screenshot, source-based analysis and
+proposed fixes. Evidence limits and provenance are recorded with the report.
