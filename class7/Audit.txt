@@ -1,0 +1,13 @@
+LOGIN FIX - NotesApp flaw #4 (auth) closed
+  Fix 1:  verify_jwt rejects alg:none and pins algorithm to HS256
+  Fix 2:  JWT_SECRET is long + random, read from the environment (no weak default)
+  Proof:  alg:none token        -> HTTP 401, {"error":"unauthorized"}
+          s3cr3t-signed token   -> HTTP 401, {"error":"unauthorized"}
+          real alice login      -> works; dashboard HTTP 200; own note HTTP 200
+
+Checked on the real local NotesApp at http://127.0.0.1:8080 on 12 November 2026.
+Bearer-only checks used a client with no cookies. Both forged tokens returned
+HTTP 200 before the fix. Alice's fresh genuine JWT returned her own grade 16.2
+after the fix. Existing Class 8 ownership checks still passed.
+
+WU YANLAN - 2023905420

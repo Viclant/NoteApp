@@ -33,7 +33,9 @@ DB_HOST = os.environ.get("DB_HOST", "db")
 DB_NAME = os.environ.get("DB_NAME", "notesapp")
 DB_USER = os.environ.get("DB_USER", "notesapp")
 DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD", "notesapp_pg_pw_2024")
-JWT_SECRET = os.environ.get("JWT_SECRET", "s3cr3t")
+JWT_SECRET = os.environ["JWT_SECRET"]
+if not JWT_SECRET.strip():
+    raise ValueError("JWT_SECRET must not be empty. Run python setup_keys.py first.")
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-session-key")
 
 app = Flask(__name__)
@@ -93,7 +95,7 @@ def migrate_comments():
         conn.close()
 
 
-# --- Minimal JWT (deliberately weak) ------------------------------------------
+# --- Minimal JWT --------------------------------------------------------------
 def _b64url(data: bytes) -> str:
     return base64.urlsafe_b64encode(data).rstrip(b"=").decode()
 
@@ -113,41 +115,35 @@ def make_jwt(payload: dict) -> str:
 
 
 def verify_jwt(token: str):
-    """Decode a JWT. Accepts alg:none (no signature) and HS256 with a short key.
-
-    This is intentionally broken (flaw #4): an attacker can forge any identity
-    by setting "alg":"none", and the HS256 key is trivially guessable.
-    """
+    """Accept only HS256 tokens signed with the configured server secret."""
+    if not isinstance(token, str):
+        return None
     try:
         h_b64, p_b64, sig_b64 = token.split(".")
-    except ValueError:
-        return None
-    try:
         header = json.loads(_b64url_decode(h_b64))
         payload = json.loads(_b64url_decode(p_b64))
-    except Exception:
+    except (ValueError, TypeError, UnicodeError):
         return None
-
-    alg = header.get("alg", "").lower()
-    if alg == "none":
-        # No signature verification at all.
-        return payload
-    if alg == "hs256":
-        signing_input = f"{h_b64}.{p_b64}".encode()
-        expected = _b64url(hmac.new(JWT_SECRET.encode(), signing_input, hashlib.sha256).digest())
-        if hmac.compare_digest(expected, sig_b64):
-            return payload
+    if not isinstance(header, dict) or not isinstance(payload, dict):
         return None
-    return None
+    # The server pins the algorithm, regardless of what the token requests.
+    if header.get("alg") != "HS256" or not sig_b64.isascii():
+        return None
+    signing_input = f"{h_b64}.{p_b64}".encode()
+    expected = _b64url(hmac.new(JWT_SECRET.encode(), signing_input, hashlib.sha256).digest())
+    if not hmac.compare_digest(expected, sig_b64):
+        return None
+    return payload
 
 
 def current_identity():
-    """Return the acting identity from a Bearer JWT if present, else the session."""
+    """Verify explicit credentials; use the session only without Authorization."""
     auth = request.headers.get("Authorization", "")
-    if auth.startswith("Bearer "):
-        payload = verify_jwt(auth[7:].strip())
-        if payload:
-            return payload
+    if auth:
+        scheme, _, token = auth.partition(" ")
+        if scheme.lower() != "bearer":
+            return None
+        return verify_jwt(token.strip())
     if "user_id" in session:
         return {"user_id": session["user_id"], "username": session.get("username"),
                 "role": session.get("role")}
@@ -220,7 +216,7 @@ def login():
             session["user_id"] = row["id"]
             session["username"] = row["username"]
             session["role"] = row["role"]
-            # Issue a weak JWT the dashboard uses to call the API.
+            # Issue a signed JWT the dashboard uses to call the API.
             session["token"] = make_jwt({
                 "user_id": row["id"], "username": row["username"], "role": row["role"],
             })
@@ -264,8 +260,7 @@ def api_notes(note_id):
         return jsonify({"error": "unauthorized"}), 401
     conn = get_db()
     cur = conn.cursor()
-    # Flaw #7 (IDOR): the owner of the note is never checked. Any authenticated
-    # caller can read any note id. Flaw #4: `ident` may come from a forged token.
+    # Fetch the note, then check ownership before decrypting or returning it.
     cur.execute(
         "SELECT n.id, n.student_id, n.class_id, n.grade, n.comment, "
         "u.username AS student, c.name AS class_name "
@@ -276,6 +271,10 @@ def api_notes(note_id):
     note = cur.fetchone()
     conn.close()
     if not note:
+        return jsonify({"error": "not found"}), 404
+    # Flaw #7 fix: students may read only their own notes.
+    # Teachers and admins may read any note, as required by the Class 8 lab.
+    if note["student_id"] != ident["user_id"] and ident.get("role") not in ("teacher", "admin"):
         return jsonify({"error": "not found"}), 404
     note["comment"] = decrypt_comment(note["comment"])
     note["grade"] = float(note["grade"]) if note["grade"] is not None else None

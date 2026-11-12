@@ -1,0 +1,10 @@
+{
+  "recorded_at": "2026-11-12T17:45:09.683113+08:00",
+  "recorded_by": "Codex, after source inspection and before baseline requests or fixes",
+  "pair_name": null,
+  "prediction": {
+    "old_unsigned_teacher_token_after_fix": "401 unauthorized",
+    "old_s3cr3t_teacher_token_after_fix": "401 unauthorized",
+    "fresh_alice_login_after_fix": "works"
+  }
+}

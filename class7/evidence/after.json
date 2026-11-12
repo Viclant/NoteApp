@@ -1,0 +1,137 @@
+{
+  "recorded_at": "2026-11-12T17:48:41.119576+08:00",
+  "phase": "after",
+  "base_url": "http://127.0.0.1:8080",
+  "method": "Automated real HTTP requests; old classroom forgeries reconstructed with the public old key; no tokens or cookies saved.",
+  "cases": [
+    {
+      "name": "no credentials",
+      "auth": "cookie-free",
+      "expected_status": 401,
+      "status": 401,
+      "body": {
+        "error": "unauthorized"
+      },
+      "passed": true
+    },
+    {
+      "name": "old alg:none teacher token",
+      "auth": "cookie-free",
+      "expected_status": 401,
+      "status": 401,
+      "body": {
+        "error": "unauthorized"
+      },
+      "passed": true
+    },
+    {
+      "name": "old s3cr3t-signed teacher token",
+      "auth": "cookie-free",
+      "expected_status": 401,
+      "status": 401,
+      "body": {
+        "error": "unauthorized"
+      },
+      "passed": true
+    },
+    {
+      "name": "normal Alice login",
+      "auth": "session",
+      "expected_status": 200,
+      "status": 200,
+      "body": null,
+      "passed": true
+    },
+    {
+      "name": "Alice dashboard",
+      "auth": "session",
+      "expected_status": 200,
+      "status": 200,
+      "body": null,
+      "passed": true
+    },
+    {
+      "name": "fresh genuine Alice JWT, own note",
+      "auth": "cookie-free",
+      "expected_status": 200,
+      "status": 200,
+      "body": {
+        "class_id": 1,
+        "class_name": "Mathematics",
+        "comment": "Late submission, but good quality.",
+        "grade": 16.2,
+        "id": 1,
+        "student": "alice",
+        "student_id": 6
+      },
+      "passed": true
+    },
+    {
+      "name": "fresh Alice JWT, Bob note (Class 8)",
+      "auth": "cookie-free",
+      "expected_status": 404,
+      "status": 404,
+      "body": {
+        "error": "not found"
+      },
+      "passed": true
+    },
+    {
+      "name": "Alice session, own note",
+      "auth": "session",
+      "expected_status": 200,
+      "status": 200,
+      "body": {
+        "class_id": 1,
+        "class_name": "Mathematics",
+        "comment": "Late submission, but good quality.",
+        "grade": 16.2,
+        "id": 1,
+        "student": "alice",
+        "student_id": 6
+      },
+      "passed": true
+    },
+    {
+      "name": "Alice session, Bob note (Class 8)",
+      "auth": "session",
+      "expected_status": 404,
+      "status": 404,
+      "body": {
+        "error": "not found"
+      },
+      "passed": true
+    },
+    {
+      "name": "bad JWT signature",
+      "auth": "cookie-free",
+      "expected_status": 401,
+      "status": 401,
+      "body": {
+        "error": "unauthorized"
+      },
+      "passed": true
+    },
+    {
+      "name": "bad Bearer with valid Alice session",
+      "auth": "session",
+      "expected_status": 401,
+      "status": 401,
+      "body": {
+        "error": "unauthorized"
+      },
+      "passed": true
+    },
+    {
+      "name": "unsigned Bearer with valid Alice session",
+      "auth": "session",
+      "expected_status": 401,
+      "status": 401,
+      "body": {
+        "error": "unauthorized"
+      },
+      "passed": true
+    }
+  ],
+  "all_passed": true
+}

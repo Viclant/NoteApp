@@ -1,0 +1,35 @@
+{
+  "recorded_at": "2026-11-12T17:48:41.683166+08:00",
+  "unit_tests": {
+    "passed": 23,
+    "failed": 0,
+    "suites": [
+      "test_jwt (12)",
+      "test_homework (4)",
+      "test_passwords (7)"
+    ],
+    "command": "docker compose -p viclant-noteapp -f docker-compose.yml -f ../noteapp.local.yml exec -T web python -m unittest test_jwt test_homework test_passwords -v"
+  },
+  "class7_live_http": {
+    "passed": 12,
+    "failed": 0,
+    "raw_results": "after.json"
+  },
+  "class8_live_http": {
+    "passed": 11,
+    "failed": 0,
+    "command": "python -B class8/verify.py"
+  },
+  "setup_checks": {
+    "passed": true,
+    "cases": [
+      "fresh three independent 32-byte keys",
+      "all populated keys: no changes",
+      "legacy two keys preserved and JWT appended",
+      "blank JWT filled",
+      "quoted-empty JWT filled",
+      "real previous encryption/HMAC keys unchanged"
+    ]
+  },
+  "baseline_response_content_check": "Both old teacher forgeries actually returned Bob note 3 before the fix."
+}

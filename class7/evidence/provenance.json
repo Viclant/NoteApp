@@ -1,0 +1,22 @@
+{
+  "checked_at": "2026-11-12T17:48:41.683166+08:00",
+  "student": {
+    "name": "WU YANLAN",
+    "id": "2023905420"
+  },
+  "source_repository": "https://github.com/Viclant/NoteApp",
+  "base_commit": "076800ad7921239f0d38bf7849d4b6c86475543a",
+  "preexisting_local_change": "JWT_ALLOW_NONE mode switch (backed up locally before the Class 7 repair)",
+  "course_source": "https://raw.githubusercontent.com/KristenPire/epita-security-labs/c1594109bcbd16c72fd54510e72477dff2c2665e/docs/class7/fix-the-login.md",
+  "method": "Real local Docker Compose application and existing database; automated HTTP and unittest checks. No screenshots claimed.",
+  "runtime_app_sha256": "4205ff4ba0a42dd1ea5ed17b1565c016d0cf9bfffed8c3b74e49fecc938e8e25",
+  "source_files_sha256": {
+    "web/app.py": "4205ff4ba0a42dd1ea5ed17b1565c016d0cf9bfffed8c3b74e49fecc938e8e25",
+    "docker-compose.yml": "7e59f56a201badb319dc46eb9efc6ab60f9c2492adfa716598c858d618dba81b",
+    "setup_keys.py": "b4447c5c7918fc8aa5625ea9ca04ba6132f3e8d4b6617f7562128a3c9e4e8af3",
+    ".env.example": "c367b9bbd75ecb0266bb4af007c29505ff651720f4c72db5e8c1159ba14f6826",
+    "web/test_jwt.py": "7ede8e0e8426cd1540b4b05ee1c7afb217d3f999b5294b0bc8f1a7e779504413",
+    "class7/verify.py": "0565ad9884a4c45b5661abb6b137bc5d4f8dfdce8c1646e65f264b52f3e1e047"
+  },
+  "secret_values_included": false
+}

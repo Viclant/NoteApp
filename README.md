@@ -28,9 +28,13 @@ automatically. When it is ready, open:
 http://localhost:8080
 ```
 
-`setup_keys.py` creates `.env` with two random keys. It leaves an existing `.env`
-unchanged. Keep this file when restarting: existing encrypted comments need the
-same key. `.env` is ignored by Git. `.env.example` lists the two variable names.
+`setup_keys.py` creates `.env` with three independent random keys for encrypted
+comments, CSV HMAC and JWT signing. It fills missing keys in an existing `.env`
+and keeps all existing nonempty keys. Keep this file when restarting: encrypted
+comments need the same key. `.env` is ignored by Git; `.env.example` lists the names.
+The JWT key is required; the app has no weak default. In production, supply secrets
+from a secrets store rather than committing them. See [Class 7](class7/README.md)
+for the login fix and verification results.
 
 ## Test accounts
 
