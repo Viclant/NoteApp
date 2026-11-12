@@ -1,0 +1,7 @@
+Class 7 control run (appendix) - target http://127.0.0.1:8083
+
+wordlist candidates tried      : 15
+candidate matching the signing key: None
+Part 2 forged token (classroom secret 's3cr3t') is refused: 401 UNAUTHORIZED
+alg:none token is refused      : 401 UNAUTHORIZED
+X3 teacher token signed with the real strong secret (sanity check): 200 OK

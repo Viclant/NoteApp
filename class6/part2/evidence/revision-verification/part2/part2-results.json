@@ -1,0 +1,251 @@
+{
+  "lab": {
+    "target": "http://127.0.0.1:8085",
+    "started_at": "2026-11-12T18:49:07+08:00",
+    "finished_at": "2026-11-12T18:49:07+08:00",
+    "wordlist": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\lab\\jwt-secrets.txt",
+    "wordlist_size": 15,
+    "evidence_dir": "C:\\Users\\Viclant\\Desktop\\JWT-Part2-Submission\\evidence\\revision-verification\\part2"
+  },
+  "login": {
+    "login_status": 302,
+    "dashboard_status": 200
+  },
+  "real_token": {
+    "header": {
+      "alg": "HS256",
+      "typ": "JWT"
+    },
+    "payload": {
+      "user_id": 6,
+      "username": "alice",
+      "role": "student"
+    },
+    "signature": "U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ"
+  },
+  "key_recovery": {
+    "found": true,
+    "key": "s3cr3t",
+    "key_length": 6,
+    "candidates_tried": 8,
+    "wordlist_size": 15,
+    "seconds": 7.3e-05,
+    "computed_signature": "U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ",
+    "token_signature": "U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ",
+    "signing_input": "eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogNiwgInVzZXJuYW1lIjogImFsaWNlIiwgInJvbGUiOiAic3R1ZGVudCJ9"
+  },
+  "forged_token": {
+    "payload": {
+      "user_id": 2,
+      "username": "prof.turing",
+      "role": "teacher"
+    },
+    "header": {
+      "alg": "HS256",
+      "typ": "JWT"
+    },
+    "token": "eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogMiwgInVzZXJuYW1lIjogInByb2YudHVyaW5nIiwgInJvbGUiOiAidGVhY2hlciJ9.dpMXBRkAqUOSb41DJ8FcIshfAm_JNUkL40MRaTUcpdY"
+  },
+  "checks": [
+    {
+      "id": "C1",
+      "check": "no credentials at all -> /api/notes/3",
+      "method": "GET",
+      "path": "/api/notes/3",
+      "expected_status": 401,
+      "actual_status": 401,
+      "reason": "UNAUTHORIZED",
+      "pass": true,
+      "body_matches_expected": true,
+      "cookie_sent": false,
+      "request_headers": {},
+      "response_headers": {
+        "Server": "Werkzeug/3.1.9 Python/3.11.18",
+        "Date": "Thu, 12 Nov 2026 10:49:07 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "30",
+        "Connection": "close"
+      },
+      "body": "{\n  \"error\": \"unauthorized\"\n}\n",
+      "at": "2026-11-12T18:49:07+08:00"
+    },
+    {
+      "id": "C2",
+      "check": "alg:none token (Part 1 style) -> /api/notes/3",
+      "method": "GET",
+      "path": "/api/notes/3",
+      "expected_status": 401,
+      "actual_status": 401,
+      "reason": "UNAUTHORIZED",
+      "pass": true,
+      "body_matches_expected": true,
+      "cookie_sent": false,
+      "request_headers": {
+        "Authorization": "Bearer eyJhbGciOiAibm9uZSIsICJ0eXAiOiAiSldUIn0.eyJ1c2VyX2lkIjogMiwgInVzZXJuYW1lIjogInByb2YudHVyaW5nIiwgInJvbGUiOiAidGVhY2hlciJ9."
+      },
+      "response_headers": {
+        "Server": "Werkzeug/3.1.9 Python/3.11.18",
+        "Date": "Thu, 12 Nov 2026 10:49:07 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "30",
+        "Connection": "close"
+      },
+      "body": "{\n  \"error\": \"unauthorized\"\n}\n",
+      "at": "2026-11-12T18:49:07+08:00"
+    },
+    {
+      "id": "C3",
+      "check": "real alice JWT -> /api/notes/1",
+      "method": "GET",
+      "path": "/api/notes/1",
+      "expected_status": 200,
+      "actual_status": 200,
+      "reason": "OK",
+      "pass": true,
+      "body_matches_expected": true,
+      "cookie_sent": false,
+      "request_headers": {
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogNiwgInVzZXJuYW1lIjogImFsaWNlIiwgInJvbGUiOiAic3R1ZGVudCJ9.U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ"
+      },
+      "response_headers": {
+        "Server": "Werkzeug/3.1.9 Python/3.11.18",
+        "Date": "Thu, 12 Nov 2026 10:49:07 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "171",
+        "Connection": "close"
+      },
+      "body": "{\n  \"class_id\": 1,\n  \"class_name\": \"Mathematics\",\n  \"comment\": \"Late submission, but good quality.\",\n  \"grade\": 16.2,\n  \"id\": 1,\n  \"student\": \"alice\",\n  \"student_id\": 6\n}\n",
+      "at": "2026-11-12T18:49:07+08:00"
+    },
+    {
+      "id": "C4",
+      "check": "real alice JWT -> /api/notes/3 (Class 8 owner check)",
+      "method": "GET",
+      "path": "/api/notes/3",
+      "expected_status": 404,
+      "actual_status": 404,
+      "reason": "NOT FOUND",
+      "pass": true,
+      "body_matches_expected": true,
+      "cookie_sent": false,
+      "request_headers": {
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogNiwgInVzZXJuYW1lIjogImFsaWNlIiwgInJvbGUiOiAic3R1ZGVudCJ9.U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ"
+      },
+      "response_headers": {
+        "Server": "Werkzeug/3.1.9 Python/3.11.18",
+        "Date": "Thu, 12 Nov 2026 10:49:07 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "27",
+        "Connection": "close"
+      },
+      "body": "{\n  \"error\": \"not found\"\n}\n",
+      "at": "2026-11-12T18:49:07+08:00"
+    },
+    {
+      "id": "C5",
+      "check": "forged teacher JWT -> /api/notes/3",
+      "method": "GET",
+      "path": "/api/notes/3",
+      "expected_status": 200,
+      "actual_status": 200,
+      "reason": "OK",
+      "pass": true,
+      "body_matches_expected": true,
+      "cookie_sent": false,
+      "request_headers": {
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogMiwgInVzZXJuYW1lIjogInByb2YudHVyaW5nIiwgInJvbGUiOiAidGVhY2hlciJ9.dpMXBRkAqUOSb41DJ8FcIshfAm_JNUkL40MRaTUcpdY"
+      },
+      "response_headers": {
+        "Server": "Werkzeug/3.1.9 Python/3.11.18",
+        "Date": "Thu, 12 Nov 2026 10:49:07 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "158",
+        "Connection": "close"
+      },
+      "body": "{\n  \"class_id\": 1,\n  \"class_name\": \"Mathematics\",\n  \"comment\": \"Solid work, keep it up.\",\n  \"grade\": 12.6,\n  \"id\": 3,\n  \"student\": \"bob\",\n  \"student_id\": 7\n}\n",
+      "at": "2026-11-12T18:49:07+08:00"
+    },
+    {
+      "id": "C6",
+      "check": "forged token, signature tampered -> /api/notes/3",
+      "method": "GET",
+      "path": "/api/notes/3",
+      "expected_status": 401,
+      "actual_status": 401,
+      "reason": "UNAUTHORIZED",
+      "pass": true,
+      "body_matches_expected": true,
+      "cookie_sent": false,
+      "request_headers": {
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogMiwgInVzZXJuYW1lIjogInByb2YudHVyaW5nIiwgInJvbGUiOiAidGVhY2hlciJ9.dpMXBRkAqUOSb41DJ8FcIshfAm_JNUkL40MRaTUcpdA"
+      },
+      "response_headers": {
+        "Server": "Werkzeug/3.1.9 Python/3.11.18",
+        "Date": "Thu, 12 Nov 2026 10:49:07 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "30",
+        "Connection": "close"
+      },
+      "body": "{\n  \"error\": \"unauthorized\"\n}\n",
+      "at": "2026-11-12T18:49:07+08:00"
+    },
+    {
+      "id": "C7",
+      "check": "signed token but role=student -> /api/notes/3",
+      "method": "GET",
+      "path": "/api/notes/3",
+      "expected_status": 404,
+      "actual_status": 404,
+      "reason": "NOT FOUND",
+      "pass": true,
+      "body_matches_expected": true,
+      "cookie_sent": false,
+      "request_headers": {
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogNiwgInVzZXJuYW1lIjogImFsaWNlIiwgInJvbGUiOiAic3R1ZGVudCJ9.U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ"
+      },
+      "response_headers": {
+        "Server": "Werkzeug/3.1.9 Python/3.11.18",
+        "Date": "Thu, 12 Nov 2026 10:49:07 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "27",
+        "Connection": "close"
+      },
+      "body": "{\n  \"error\": \"not found\"\n}\n",
+      "at": "2026-11-12T18:49:07+08:00"
+    },
+    {
+      "id": "C8",
+      "check": "token signed with a wrong key -> /api/notes/3",
+      "method": "GET",
+      "path": "/api/notes/3",
+      "expected_status": 401,
+      "actual_status": 401,
+      "reason": "UNAUTHORIZED",
+      "pass": true,
+      "body_matches_expected": true,
+      "cookie_sent": false,
+      "request_headers": {
+        "Authorization": "Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogMiwgInVzZXJuYW1lIjogInByb2YudHVyaW5nIiwgInJvbGUiOiAidGVhY2hlciJ9.xdhQGJma6068ONMJIP5B7U2TDGlsuY7ryTMtHWCexkA"
+      },
+      "response_headers": {
+        "Server": "Werkzeug/3.1.9 Python/3.11.18",
+        "Date": "Thu, 12 Nov 2026 10:49:07 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "30",
+        "Connection": "close"
+      },
+      "body": "{\n  \"error\": \"unauthorized\"\n}\n",
+      "at": "2026-11-12T18:49:07+08:00"
+    }
+  ],
+  "bob_note_3": {
+    "class_id": 1,
+    "class_name": "Mathematics",
+    "comment": "Solid work, keep it up.",
+    "grade": 12.6,
+    "id": 3,
+    "student": "bob",
+    "student_id": 7
+  },
+  "overall_passed": true
+}

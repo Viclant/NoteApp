@@ -1,0 +1,215 @@
+[2026-11-12 18:17:28] POST /login   (login as alice)
+> Content-Type: application/x-www-form-urlencoded
+> (no Cookie header was sent with this request)
+< HTTP/1.1 302 FOUND
+< Server: Werkzeug/3.1.9 Python/3.11.18
+< Date: Thu, 12 Nov 2026 10:17:28 GMT
+< Content-Type: text/html; charset=utf-8
+< Content-Length: 189
+< Location: /
+< Vary: Cookie
+< Set-Cookie: session=.eJwlj00PgjAYg__LzmrEr6g3NBFZcEaFCVwMbgu8MjYVkKDxvwt4a9onTftBTy0FWqK8KLlQBeqhQqdCNY6ocXK1GOzBhNNmVxM3AGdtAt_Kyr7p2E7vPl3jxaABDTaitT-SaRsQqGJb0Xfo4zI4G7KDs00enYm0uwy_rpbXFbPx0QgtWvK2yOtnBUyIcoc0cMPsUSV46OcJc7i5mi_qo_YEn-76RL8Ozc4yF88LcLSc_bWKsvZIJIEJ9P0B0x1KDA.avWSOA.Zy_gjKBMzk7Uxd6jT13JBdZbwy0; HttpOnly; Path=/
+< Connection: close
+<!doctype html>
+<html lang=en>
+<title>Redirecting...</title>
+<h1>Redirecting...</h1>
+<p>You should be redirected automatically to the target URL: <a href="/">/</a>. If not, click the link.
+
+[2026-11-12 18:17:28] GET /dashboard   (read dashboard (cookie session))
+> Cookie: session=.eJwlj00PgjAYg__LzmrEr6g3NBFZcEaFCVwMbgu8MjYVkKDxvwt4a9onTftBTy0FWqK8KLlQBeqhQqdCNY6ocXK1GOzBhNNmVxM3AGdtAt_Kyr7p2E7vPl3jxaABDTaitT-SaRsQqGJb0Xfo4zI4G7KDs00enYm0uwy_rpbXFbPx0QgtWvK2yOtnBUyIcoc0cMPsUSV46OcJc7i5mi_qo_YEn-76RL8Ozc4yF88LcLSc_bWKsvZIJIEJ9P0B0x1KDA.avWSOA.Zy_gjKBMzk7Uxd6jT13JBdZbwy0
+< HTTP/1.1 200 OK
+< Server: Werkzeug/3.1.9 Python/3.11.18
+< Date: Thu, 12 Nov 2026 10:17:28 GMT
+< Content-Type: text/html; charset=utf-8
+< Content-Length: 1801
+< Vary: Cookie
+< Connection: close
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NotesApp</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">NotesApp</a>
+    
+      <span class="who">
+        alice
+        <span class="badge badge-student">student</span>
+      </span>
+      <a class="logout" href="/logout">Log out</a>
+    
+  </header>
+  <main class="content">
+    
+<div class="card">
+  <h1>My grades</h1>
+  
+  <table>
+    <thead><tr><th>ID</th><th>Class</th><th>Grade</th><th>Comment</th></tr></thead>
+    <tbody>
+      
+      <tr>
+        <td>2</td>
+        <td>Computer Science</td>
+        <td>10.5</td>
+        
+        <td>Needs to review chapter 3.</td>
+      </tr>
+      
+      <tr>
+        <td>1</td>
+        <td>Mathematics</td>
+        <td>16.2</td>
+        
+        <td>Late submission, but good quality.</td>
+      </tr>
+      
+    </tbody>
+  </table>
+  
+</div>
+
+<div class="card">
+  <h2>Grade detail (API)</h2>
+  <p>Look up a single grade by its id.</p>
+  <input type="number" id="noteId" placeholder="note id" value="2">
+  <button onclick="loadNote()">Load</button>
+  <pre id="apiOut"></pre>
+</div>
+
+<script>
+  const TOKEN = "eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogNiwgInVzZXJuYW1lIjogImFsaWNlIiwgInJvbGUiOiAic3R1ZGVudCJ9.U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ";
+  async function loadNote() {
+    const id = document.getElementById('noteId').value;
+    const res = await fetch('/api/notes/' + id, {
+      headers: { 'Authorization': 'Bearer ' + TOKEN }
+    });
+    const data = await res.json();
+    document.getElementById('apiOut').textContent = JSON.stringify(data, null, 2);
+  }
+</script>
+
+  </main>
+</body>
+</html>
+
+[2026-11-12 18:17:28] GET /api/notes/3   (C1 no credentials at all -> /api/notes/3)
+> (no Cookie header was sent with this request)
+< HTTP/1.1 401 UNAUTHORIZED
+< Server: Werkzeug/3.1.9 Python/3.11.18
+< Date: Thu, 12 Nov 2026 10:17:28 GMT
+< Content-Type: application/json
+< Content-Length: 30
+< Connection: close
+{
+  "error": "unauthorized"
+}
+
+[2026-11-12 18:17:28] GET /api/notes/3   (C2 alg:none token (Part 1 style) -> /api/notes/3)
+> Authorization: Bearer eyJhbGciOiAibm9uZSIsICJ0eXAiOiAiSldUIn0.eyJ1c2VyX2lkIjogMiwgInVzZXJuYW1lIjogInByb2YudHVyaW5nIiwgInJvbGUiOiAidGVhY2hlciJ9.
+> (no Cookie header was sent with this request)
+< HTTP/1.1 401 UNAUTHORIZED
+< Server: Werkzeug/3.1.9 Python/3.11.18
+< Date: Thu, 12 Nov 2026 10:17:28 GMT
+< Content-Type: application/json
+< Content-Length: 30
+< Connection: close
+{
+  "error": "unauthorized"
+}
+
+[2026-11-12 18:17:28] GET /api/notes/1   (C3 real alice JWT -> /api/notes/1)
+> Authorization: Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogNiwgInVzZXJuYW1lIjogImFsaWNlIiwgInJvbGUiOiAic3R1ZGVudCJ9.U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ
+> (no Cookie header was sent with this request)
+< HTTP/1.1 200 OK
+< Server: Werkzeug/3.1.9 Python/3.11.18
+< Date: Thu, 12 Nov 2026 10:17:28 GMT
+< Content-Type: application/json
+< Content-Length: 171
+< Connection: close
+{
+  "class_id": 1,
+  "class_name": "Mathematics",
+  "comment": "Late submission, but good quality.",
+  "grade": 16.2,
+  "id": 1,
+  "student": "alice",
+  "student_id": 6
+}
+
+[2026-11-12 18:17:28] GET /api/notes/3   (C4 real alice JWT -> /api/notes/3 (Class 8 owner check))
+> Authorization: Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogNiwgInVzZXJuYW1lIjogImFsaWNlIiwgInJvbGUiOiAic3R1ZGVudCJ9.U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ
+> (no Cookie header was sent with this request)
+< HTTP/1.1 404 NOT FOUND
+< Server: Werkzeug/3.1.9 Python/3.11.18
+< Date: Thu, 12 Nov 2026 10:17:28 GMT
+< Content-Type: application/json
+< Content-Length: 27
+< Connection: close
+{
+  "error": "not found"
+}
+
+[2026-11-12 18:17:28] GET /api/notes/3   (C5 forged teacher JWT -> /api/notes/3)
+> Authorization: Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogMiwgInVzZXJuYW1lIjogInByb2YudHVyaW5nIiwgInJvbGUiOiAidGVhY2hlciJ9.dpMXBRkAqUOSb41DJ8FcIshfAm_JNUkL40MRaTUcpdY
+> (no Cookie header was sent with this request)
+< HTTP/1.1 200 OK
+< Server: Werkzeug/3.1.9 Python/3.11.18
+< Date: Thu, 12 Nov 2026 10:17:28 GMT
+< Content-Type: application/json
+< Content-Length: 158
+< Connection: close
+{
+  "class_id": 1,
+  "class_name": "Mathematics",
+  "comment": "Solid work, keep it up.",
+  "grade": 12.6,
+  "id": 3,
+  "student": "bob",
+  "student_id": 7
+}
+
+[2026-11-12 18:17:28] GET /api/notes/3   (C6 forged token, signature tampered -> /api/notes/3)
+> Authorization: Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogMiwgInVzZXJuYW1lIjogInByb2YudHVyaW5nIiwgInJvbGUiOiAidGVhY2hlciJ9.dpMXBRkAqUOSb41DJ8FcIshfAm_JNUkL40MRaTUcpdA
+> (no Cookie header was sent with this request)
+< HTTP/1.1 401 UNAUTHORIZED
+< Server: Werkzeug/3.1.9 Python/3.11.18
+< Date: Thu, 12 Nov 2026 10:17:28 GMT
+< Content-Type: application/json
+< Content-Length: 30
+< Connection: close
+{
+  "error": "unauthorized"
+}
+
+[2026-11-12 18:17:28] GET /api/notes/3   (C7 signed token but role=student -> /api/notes/3)
+> Authorization: Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogNiwgInVzZXJuYW1lIjogImFsaWNlIiwgInJvbGUiOiAic3R1ZGVudCJ9.U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ
+> (no Cookie header was sent with this request)
+< HTTP/1.1 404 NOT FOUND
+< Server: Werkzeug/3.1.9 Python/3.11.18
+< Date: Thu, 12 Nov 2026 10:17:28 GMT
+< Content-Type: application/json
+< Content-Length: 27
+< Connection: close
+{
+  "error": "not found"
+}
+
+[2026-11-12 18:17:28] GET /api/notes/3   (C8 token signed with a wrong key -> /api/notes/3)
+> Authorization: Bearer eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogMiwgInVzZXJuYW1lIjogInByb2YudHVyaW5nIiwgInJvbGUiOiAidGVhY2hlciJ9.xdhQGJma6068ONMJIP5B7U2TDGlsuY7ryTMtHWCexkA
+> (no Cookie header was sent with this request)
+< HTTP/1.1 401 UNAUTHORIZED
+< Server: Werkzeug/3.1.9 Python/3.11.18
+< Date: Thu, 12 Nov 2026 10:17:28 GMT
+< Content-Type: application/json
+< Content-Length: 30
+< Connection: close
+{
+  "error": "unauthorized"
+}
+

@@ -1,0 +1,4 @@
+# Keep the byte sequences used by the evidence manifest unchanged on checkout.
+* -text
+*.png binary
+*.pdf binary

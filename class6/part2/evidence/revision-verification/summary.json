@@ -1,0 +1,63 @@
+{
+  "started_at": "2026-11-12T18:48:51.947967+08:00",
+  "scope": "Relocated copy, fresh independent test databases, no original service changed",
+  "prediction_file": "revision-prediction.json",
+  "passed": true,
+  "lab_app_sha256": "6b509f9c541fdeb055d2a7565a45274884d06b99c4e8080c5676d1ff7f3633bf",
+  "class7-control_app_sha256": "6b509f9c541fdeb055d2a7565a45274884d06b99c4e8080c5676d1ff7f3633bf",
+  "part2_checks_passed": 8,
+  "part2_checks_total": 8,
+  "strong_control_checks_passed": 3,
+  "strong_control_checks_total": 3,
+  "wordlist_candidates": 15,
+  "weak_key_candidates_tried": 8,
+  "weak_key_search_seconds": 7.3e-05,
+  "negative_checks": [
+    {
+      "case": "missing wordlist",
+      "exit_code": 1,
+      "passed": true
+    },
+    {
+      "case": "empty wordlist",
+      "exit_code": 1,
+      "passed": true
+    },
+    {
+      "case": "missing positive-control key",
+      "exit_code": 2,
+      "passed": true
+    },
+    {
+      "case": "refuse evidence overwrite",
+      "exit_code": 2,
+      "passed": true
+    }
+  ],
+  "relocated_default_wordlist_passed": true,
+  "live_evidence_helper_passed": true,
+  "cleanup": [
+    {
+      "project": "jwt-part2-review-final-weak",
+      "down_exit_code": 0,
+      "remaining_containers": "",
+      "retained_volumes": [
+        "jwt-part2-review-final-weak_lab_pgdata"
+      ],
+      "volume_deletion_requested": false,
+      "passed": true
+    },
+    {
+      "project": "jwt-part2-review-final-control",
+      "down_exit_code": 0,
+      "remaining_containers": "",
+      "retained_volumes": [
+        "jwt-part2-review-final-control_lab_pgdata"
+      ],
+      "volume_deletion_requested": false,
+      "passed": true
+    }
+  ],
+  "cleanup_passed": true,
+  "finished_at": "2026-11-12T18:49:12.039095+08:00"
+}

@@ -1,0 +1,283 @@
+[
+  {
+    "command": [
+      "C:\\Users\\Viclant\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "setup_keys.py"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\lab",
+    "exit_code": 0,
+    "elapsed_seconds": 0.061,
+    "output": "Created .env with two different random keys. Keep it to read your encrypted comments.\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-final-weak",
+      "-f",
+      "compose.yaml",
+      "up",
+      "-d",
+      "--build"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\lab",
+    "exit_code": 0,
+    "elapsed_seconds": 6.241,
+    "output": "#1 [internal] load local bake definitions\n#1 reading from stdin 696B done\n#1 DONE 0.0s\n\n#2 [internal] load build definition from Dockerfile\n#2 transferring dockerfile: 1.04kB done\n#2 DONE 0.0s\n\n#3 [internal] load metadata for docker.io/library/python:3.11-slim\n#3 DONE 0.6s\n\n#4 [internal] load .dockerignore\n#4 transferring context: 2B done\n#4 DONE 0.0s\n\n#5 [1/7] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535\n#5 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535 0.0s done\n#5 DONE 0.0s\n\n#6 [internal] load build context\n#6 transferring context: 1.47kB done\n#6 DONE 0.0s\n\n#7 [6/7] COPY . /app\n#7 CACHED\n\n#8 [3/7] RUN apt-get update && apt-get install -y --no-install-recommends iputils-ping     && rm -rf /var/lib/apt/lists/*\n#8 CACHED\n\n#9 [2/7] WORKDIR /app\n#9 CACHED\n\n#10 [5/7] RUN pip install --no-cache-dir -r requirements.txt\n#10 CACHED\n\n#11 [4/7] COPY requirements.txt .\n#11 CACHED\n\n#12 [7/7] RUN mkdir -p /var/log/notesapp /app/backups     && printf 'DB_PASSWORD=notesapp_pg_pw_2024\\nJWT_SECRET=s3cr3t\\n' > /app/config.env     && printf '%s\\n' '-- nightly dump of users table'         'admin:admin123:admin' 'prof.turing:teach123:teacher' > /app/backups/users_backup.sql     && touch /var/log/notesapp/app.log     && chmod -R 0777 /var/log/notesapp /app/backups     && chmod 0666 /app/config.env\n#12 CACHED\n\n#13 exporting to image\n#13 exporting layers done\n#13 exporting manifest sha256:42f2f323e8a1fa0be99e70a252bdb4998de43a47a81055deffc9ee4140dd9cdb done\n#13 exporting config sha256:7d9924d2349db646c33901f2144fd16b634a1630dbe85b67a0e885f1dce1cced done\n#13 exporting attestation manifest sha256:24768eb53f741a580ad4419cd8ab62b7e9e33aec957144a799b0825014f76e10 0.0s done\n#13 exporting manifest list sha256:004d106b61e55a0e799fc2fdd763c46c298a06dcccf98b7723670a1f6e3cbcbb\n#13 exporting manifest list sha256:004d106b61e55a0e799fc2fdd763c46c298a06dcccf98b7723670a1f6e3cbcbb 0.0s done\n#13 naming to docker.io/library/jwt-part2-review-final-weak-web:latest done\n#13 unpacking to docker.io/library/jwt-part2-review-final-weak-web:latest done\n#13 DONE 0.1s\n\n#14 resolving provenance for metadata file\n#14 DONE 0.0s\n jwt-part2-review-final-weak-web  Built\n Network jwt-part2-review-final-weak_default  Creating\n Network jwt-part2-review-final-weak_default  Created\n Volume jwt-part2-review-final-weak_lab_pgdata  Creating\n Volume jwt-part2-review-final-weak_lab_pgdata  Created\n Container jwt-part2-review-final-weak-db-1  Creating\n Container jwt-part2-review-final-weak-db-1  Created\n Container jwt-part2-review-final-weak-web-1  Creating\n Container jwt-part2-review-final-weak-web-1  Created\n Container jwt-part2-review-final-weak-db-1  Starting\n Container jwt-part2-review-final-weak-db-1  Started\n Container jwt-part2-review-final-weak-db-1  Waiting\n Container jwt-part2-review-final-weak-db-1  Healthy\n Container jwt-part2-review-final-weak-web-1  Starting\n Container jwt-part2-review-final-weak-web-1  Started\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-final-weak",
+      "-f",
+      "compose.yaml",
+      "exec",
+      "-T",
+      "web",
+      "sha256sum",
+      "/app/app.py"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\lab",
+    "exit_code": 0,
+    "elapsed_seconds": 0.426,
+    "output": "6b509f9c541fdeb055d2a7565a45274884d06b99c4e8080c5676d1ff7f3633bf  /app/app.py\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\Viclant\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "setup_keys.py"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\class7-control",
+    "exit_code": 0,
+    "elapsed_seconds": 0.055,
+    "output": "Created missing local keys without replacing existing keys. Keep .env with this control instance.\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-final-control",
+      "-f",
+      "compose.yaml",
+      "up",
+      "-d",
+      "--build"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\class7-control",
+    "exit_code": 0,
+    "elapsed_seconds": 5.809,
+    "output": "#1 [internal] load local bake definitions\n#1 reading from stdin 724B done\n#1 DONE 0.0s\n\n#2 [internal] load build definition from Dockerfile\n#2 transferring dockerfile: 1.04kB done\n#2 DONE 0.0s\n\n#3 [internal] load metadata for docker.io/library/python:3.11-slim\n#3 DONE 0.2s\n\n#4 [internal] load .dockerignore\n#4 transferring context: 2B done\n#4 DONE 0.0s\n\n#5 [1/7] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535\n#5 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535 0.0s done\n#5 DONE 0.0s\n\n#6 [internal] load build context\n#6 transferring context: 457B done\n#6 DONE 0.0s\n\n#7 [5/7] RUN pip install --no-cache-dir -r requirements.txt\n#7 CACHED\n\n#8 [2/7] WORKDIR /app\n#8 CACHED\n\n#9 [6/7] COPY . /app\n#9 CACHED\n\n#10 [4/7] COPY requirements.txt .\n#10 CACHED\n\n#11 [3/7] RUN apt-get update && apt-get install -y --no-install-recommends iputils-ping     && rm -rf /var/lib/apt/lists/*\n#11 CACHED\n\n#12 [7/7] RUN mkdir -p /var/log/notesapp /app/backups     && printf 'DB_PASSWORD=notesapp_pg_pw_2024\\nJWT_SECRET=s3cr3t\\n' > /app/config.env     && printf '%s\\n' '-- nightly dump of users table'         'admin:admin123:admin' 'prof.turing:teach123:teacher' > /app/backups/users_backup.sql     && touch /var/log/notesapp/app.log     && chmod -R 0777 /var/log/notesapp /app/backups     && chmod 0666 /app/config.env\n#12 CACHED\n\n#13 exporting to image\n#13 exporting layers done\n#13 exporting manifest sha256:38efbe0ff9f696ce94903dd4f3d4d889f363ac5ef6bb04dd373fd38a203054bf done\n#13 exporting config sha256:d74bcb71de2a8cf449d826c194676fdb3dfe7f70ea7139a20e0e2c5f337771b7 0.0s done\n#13 exporting attestation manifest sha256:3067582ba196d39f36e15c79558b6eb8f12594fa08f2c20737cf7ad064edc578 0.0s done\n#13 exporting manifest list sha256:cd03d400b273ccd81c5b76c0831b80d82470495aea0510c10403a55c06a21161 done\n#13 naming to docker.io/library/jwt-part2-review-final-control-web:latest done\n#13 unpacking to docker.io/library/jwt-part2-review-final-control-web:latest done\n#13 DONE 0.1s\n\n#14 resolving provenance for metadata file\n#14 DONE 0.0s\n jwt-part2-review-final-control-web  Built\n Network jwt-part2-review-final-control_default  Creating\n Network jwt-part2-review-final-control_default  Created\n Volume jwt-part2-review-final-control_lab_pgdata  Creating\n Volume jwt-part2-review-final-control_lab_pgdata  Created\n Container jwt-part2-review-final-control-db-1  Creating\n Container jwt-part2-review-final-control-db-1  Created\n Container jwt-part2-review-final-control-web-1  Creating\n Container jwt-part2-review-final-control-web-1  Created\n Container jwt-part2-review-final-control-db-1  Starting\n Container jwt-part2-review-final-control-db-1  Started\n Container jwt-part2-review-final-control-db-1  Waiting\n Container jwt-part2-review-final-control-db-1  Healthy\n Container jwt-part2-review-final-control-web-1  Starting\n Container jwt-part2-review-final-control-web-1  Started\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-final-control",
+      "-f",
+      "compose.yaml",
+      "exec",
+      "-T",
+      "web",
+      "sha256sum",
+      "/app/app.py"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\class7-control",
+    "exit_code": 0,
+    "elapsed_seconds": 0.506,
+    "output": "6b509f9c541fdeb055d2a7565a45274884d06b99c4e8080c5676d1ff7f3633bf  /app/app.py\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\Viclant\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\scripts\\part2.py",
+      "--base",
+      "http://127.0.0.1:8085",
+      "--out",
+      "C:\\Users\\Viclant\\Desktop\\JWT-Part2-Submission\\evidence\\revision-verification\\part2"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final",
+    "exit_code": 0,
+    "elapsed_seconds": 0.218,
+    "output": "==============================================================================\nNotesApp - JWT Part 2 : weak HS256 key recovery + teacher token\ntarget          : http://127.0.0.1:8085\nwordlist        : C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\lab\\jwt-secrets.txt (15 candidates)\nevidence folder : C:\\Users\\Viclant\\Desktop\\JWT-Part2-Submission\\evidence\\revision-verification\\part2\n==============================================================================\n\n[1] log in as alice and read the JWT issued by the server\n    login status          : 302 (POST /login)\n    dashboard status      : 200 (GET /dashboard)\n    token (3 parts)      : eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogNiwgInVzZXJuYW1lIjogImFsaWNlIiwgInJvbGUiOiAic3R1ZGVudCJ9.U-mti4NnT0VY...\n    header  (decoded)     : {\"alg\": \"HS256\", \"typ\": \"JWT\"}\n    payload (decoded)     : {\"user_id\": 6, \"username\": \"alice\", \"role\": \"student\"}\n    signature (b64url)    : U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ\n\n[2] try every wordlist candidate as the HS256 secret\n    candidates tried      : 8 / 15\n    matching candidate    : s3cr3t   (length 6 characters)\n    computed signature    : U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ\n    signature in token    : U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ\n    identical             : True\n    measured search time  : 7.3e-05 s (wall clock of this run)\n\n[3] forge a teacher token with the recovered key\n    payload               : {\"user_id\": 2, \"username\": \"prof.turing\", \"role\": \"teacher\"}\n    forged header         : {\"alg\": \"HS256\", \"typ\": \"JWT\"}\n    forged token          : eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogMiwgInVzZXJuYW1lIjogInByb2YudHVyaW5nIiwgInJvbGUiOiAidGVhY2hlciJ9.dpMXBRkAqUOSb41DJ8FcIshfAm_JNUkL40MRaTUcpdY\n\n[4] acceptance checks (fresh client, no cookie is ever sent)\n    C1 no credentials at all -> /api/notes/3\n        expected 401 | got 401 UNAUTHORIZED | cookie sent: False | PASS\n        body: {   \"error\": \"unauthorized\" }\n    C2 alg:none token (Part 1 style) -> /api/notes/3\n        expected 401 | got 401 UNAUTHORIZED | cookie sent: False | PASS\n        body: {   \"error\": \"unauthorized\" }\n    C3 real alice JWT -> /api/notes/1\n        expected 200 | got 200 OK | cookie sent: False | PASS\n        body: {   \"class_id\": 1,   \"class_name\": \"Mathematics\",   \"comment\": \"Late submission, but good quality.\",   \"grade\": 16.2,   \"id\": 1,   \"student\": \"alice\",   \"studen...\n    C4 real alice JWT -> /api/notes/3 (Class 8 owner check)\n        expected 404 | got 404 NOT FOUND | cookie sent: False | PASS\n        body: {   \"error\": \"not found\" }\n    C5 forged teacher JWT -> /api/notes/3\n        expected 200 | got 200 OK | cookie sent: False | PASS\n        body: {   \"class_id\": 1,   \"class_name\": \"Mathematics\",   \"comment\": \"Solid work, keep it up.\",   \"grade\": 12.6,   \"id\": 3,   \"student\": \"bob\",   \"student_id\": 7 }\n    C6 forged token, signature tampered -> /api/notes/3\n        expected 401 | got 401 UNAUTHORIZED | cookie sent: False | PASS\n        body: {   \"error\": \"unauthorized\" }\n    C7 signed token but role=student -> /api/notes/3\n        expected 404 | got 404 NOT FOUND | cookie sent: False | PASS\n        body: {   \"error\": \"not found\" }\n    C8 token signed with a wrong key -> /api/notes/3\n        expected 401 | got 401 UNAUTHORIZED | cookie sent: False | PASS\n        body: {   \"error\": \"unauthorized\" }\n\n[5] what the forged teacher identity actually received\n    note id    : 3\n    student    : bob\n    class      : Mathematics\n    grade      : 12.6\n    comment    : Solid work, keep it up.\n\n==============================================================================\nchecks passed: 8/8\nevidence     : C:\\Users\\Viclant\\Desktop\\JWT-Part2-Submission\\evidence\\revision-verification\\part2\\part2-results.json\n               C:\\Users\\Viclant\\Desktop\\JWT-Part2-Submission\\evidence\\revision-verification\\part2\\http-status.csv\n               C:\\Users\\Viclant\\Desktop\\JWT-Part2-Submission\\evidence\\revision-verification\\part2\\http-transcript.txt\n               C:\\Users\\Viclant\\Desktop\\JWT-Part2-Submission\\evidence\\revision-verification\\part2\\wordlist-hit.txt\n==============================================================================\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\Viclant\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\scripts\\part2-class7-control.py",
+      "--base",
+      "http://127.0.0.1:8086",
+      "--part2-results",
+      "C:\\Users\\Viclant\\Desktop\\JWT-Part2-Submission\\evidence\\revision-verification\\part2\\part2-results.json",
+      "--secret-file",
+      "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\class7-control\\.env",
+      "--out",
+      "C:\\Users\\Viclant\\Desktop\\JWT-Part2-Submission\\evidence\\revision-verification\\control"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final",
+    "exit_code": 0,
+    "elapsed_seconds": 0.184,
+    "output": "Strong-secret control: http://127.0.0.1:8086\nWordlist candidates tried: 15\nWordlist match: none\nX1: 401 - PASS\nX2: 401 - PASS\nX3: 200 - PASS\nOverall: PASS\n\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\Viclant\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\scripts\\part2.py",
+      "--wordlist",
+      "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\does-not-exist.txt"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final",
+    "exit_code": 1,
+    "elapsed_seconds": 0.11,
+    "output": "wordlist not found: C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\does-not-exist.txt\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\Viclant\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\scripts\\part2.py",
+      "--wordlist",
+      "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\empty-wordlist.txt"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final",
+    "exit_code": 1,
+    "elapsed_seconds": 0.1,
+    "output": "Traceback (most recent call last):\n  File \"C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\scripts\\part2.py\", line 462, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\scripts\\part2.py\", line 254, in main\n    wordlist = load_wordlist(wordlist_path)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\scripts\\part2.py\", line 224, in load_wordlist\n    raise ValueError(\"wordlist contains no candidates\")\nValueError: wordlist contains no candidates\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\Viclant\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\scripts\\part2-class7-control.py",
+      "--part2-results",
+      "C:\\Users\\Viclant\\Desktop\\JWT-Part2-Submission\\evidence\\revision-verification\\part2\\part2-results.json",
+      "--secret-file",
+      "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\missing.env"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final",
+    "exit_code": 2,
+    "elapsed_seconds": 0.104,
+    "output": "usage: part2-class7-control.py [-h] [--base BASE] [--wordlist WORDLIST]\n                               [--part2-results PART2_RESULTS]\n                               [--secret-file SECRET_FILE] [--out OUT]\npart2-class7-control.py: error: positive-control key missing: run class7-control/setup_keys.py and supply --secret-file or CONTROL_JWT_SECRET\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\Viclant\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\scripts\\part2.py",
+      "--out",
+      "C:\\Users\\Viclant\\Desktop\\JWT-Part2-Submission\\evidence\\revision-verification\\part2"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final",
+    "exit_code": 2,
+    "elapsed_seconds": 0.117,
+    "output": "usage: part2.py [-h] [--base BASE] [--wordlist WORDLIST] [--out OUT]\n                [--username USERNAME] [--password PASSWORD]\npart2.py: error: output already contains evidence; choose a new --out directory\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\Viclant\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "-c",
+      "import importlib.util; s=importlib.util.spec_from_file_location('evidence_page',r'C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\scripts\\part2-evidence-server.py'); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); m.BASE_PORT=8085; page=m.build(); assert '12.6' in page and 's3cr3t' in page; print('live page and package-relative wordlist: PASS')"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final",
+    "exit_code": 0,
+    "elapsed_seconds": 0.226,
+    "output": "live page and package-relative wordlist: PASS\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-final-weak",
+      "-f",
+      "compose.yaml",
+      "down"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\lab",
+    "exit_code": 0,
+    "elapsed_seconds": 1.572,
+    "output": " Container jwt-part2-review-final-weak-web-1  Stopping\n Container jwt-part2-review-final-weak-web-1  Stopped\n Container jwt-part2-review-final-weak-web-1  Removing\n Container jwt-part2-review-final-weak-web-1  Removed\n Container jwt-part2-review-final-weak-db-1  Stopping\n Container jwt-part2-review-final-weak-db-1  Stopped\n Container jwt-part2-review-final-weak-db-1  Removing\n Container jwt-part2-review-final-weak-db-1  Removed\n Network jwt-part2-review-final-weak_default  Removing\n Network jwt-part2-review-final-weak_default  Removed\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-final-weak",
+      "-f",
+      "compose.yaml",
+      "ps",
+      "--all",
+      "--format",
+      "json"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\lab",
+    "exit_code": 0,
+    "elapsed_seconds": 0.367,
+    "output": ""
+  },
+  {
+    "command": [
+      "docker",
+      "volume",
+      "ls",
+      "--filter",
+      "label=com.docker.compose.project=jwt-part2-review-final-weak",
+      "--format",
+      "{{.Name}}"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\lab",
+    "exit_code": 0,
+    "elapsed_seconds": 0.045,
+    "output": "jwt-part2-review-final-weak_lab_pgdata\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-final-control",
+      "-f",
+      "compose.yaml",
+      "down"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\class7-control",
+    "exit_code": 0,
+    "elapsed_seconds": 1.462,
+    "output": " Container jwt-part2-review-final-control-web-1  Stopping\n Container jwt-part2-review-final-control-web-1  Stopped\n Container jwt-part2-review-final-control-web-1  Removing\n Container jwt-part2-review-final-control-web-1  Removed\n Container jwt-part2-review-final-control-db-1  Stopping\n Container jwt-part2-review-final-control-db-1  Stopped\n Container jwt-part2-review-final-control-db-1  Removing\n Container jwt-part2-review-final-control-db-1  Removed\n Network jwt-part2-review-final-control_default  Removing\n Network jwt-part2-review-final-control_default  Removed\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-final-control",
+      "-f",
+      "compose.yaml",
+      "ps",
+      "--all",
+      "--format",
+      "json"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\class7-control",
+    "exit_code": 0,
+    "elapsed_seconds": 0.358,
+    "output": ""
+  },
+  {
+    "command": [
+      "docker",
+      "volume",
+      "ls",
+      "--filter",
+      "label=com.docker.compose.project=jwt-part2-review-final-control",
+      "--format",
+      "{{.Name}}"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\class7-control",
+    "exit_code": 0,
+    "elapsed_seconds": 0.049,
+    "output": "jwt-part2-review-final-control_lab_pgdata\n"
+  }
+]

@@ -1,0 +1,77 @@
+{
+  "scope": "Unchanged evidence supplied before this revision",
+  "files": {
+    "evidence/01-app-login-8082.png": {
+      "bytes": 14649,
+      "sha256": "df5dd54905d1e18b3b69703b908ff09b79d1f76b31ef5a4d684617f8272257d8"
+    },
+    "evidence/02-wordlist-hit.png": {
+      "bytes": 46194,
+      "sha256": "27d07ba89ca67e2f14c281b1815532d7dfd1085671bebaea1959edcf6064c6b7"
+    },
+    "evidence/03-forged-teacher-bob-grade.png": {
+      "bytes": 57951,
+      "sha256": "e3419a1427b8f0741e33a0e84b61a0b59187cdfc55a4382505c31f106861311b"
+    },
+    "evidence/04-none-and-tampered-rejected.png": {
+      "bytes": 47544,
+      "sha256": "0bc80d8d49c3d86125e790efd01954a8d9eda3bc9ebee17e7aa308b010d6b530"
+    },
+    "evidence/05-full-live-evidence.png": {
+      "bytes": 84112,
+      "sha256": "70f18fda70c1885e459aeabb1cb4dd264b6289b3cf44fd225b7d008537cd464e"
+    },
+    "evidence/06-class7-control.png": {
+      "bytes": 40670,
+      "sha256": "4bcd1a93dc7296260a332db0fc1d886ddd7d4e860b795a2d69df179365a62c22"
+    },
+    "evidence/07-app-ui-forged-teacher.png": {
+      "bytes": 37563,
+      "sha256": "0ea9088b1546da3f8fbeef519ec0c1f8527bdb79c305df755ea1244a0cf46149"
+    },
+    "evidence/08-app-ui-alice-on-bob-note.png": {
+      "bytes": 38610,
+      "sha256": "b5e77e0310119951ad6db7b0f6607fff0f4425305890fbbf5624068740acdded"
+    },
+    "evidence/09-console-forged-teacher.png": {
+      "bytes": 84922,
+      "sha256": "dd352d6a14597a1458402f7da13b624e713d715eb4078dd6ba3329d43988f07a"
+    },
+    "evidence/10-console-rejected.png": {
+      "bytes": 101128,
+      "sha256": "a95d7782b62277303389c57692a710f5eadbd6f40832ff00c4bcde60cfdb04e5"
+    },
+    "evidence/class7-control.json": {
+      "bytes": 1237,
+      "sha256": "b0a627873bbf6c1a48c99c79900c992b0171e63bde0e0b155298d2d06144089a"
+    },
+    "evidence/class7-control.txt": {
+      "bytes": 349,
+      "sha256": "0b3db1f1a91054ad0ca7ff1a1211ca6a24cc5ee948135a8a215fc5889d6a59f3"
+    },
+    "evidence/console-forged.cmd": {
+      "bytes": 1228,
+      "sha256": "8e9cad2d46af6f1abccc43c6f1e23ed3187e2024886bc57220e9b306a0c9c54e"
+    },
+    "evidence/console-rejected.cmd": {
+      "bytes": 1350,
+      "sha256": "bd4ac37e748c1baf197ce5af0c21e4ef4423c9e00925bfcd6474df7859d560a5"
+    },
+    "evidence/http-status.csv": {
+      "bytes": 905,
+      "sha256": "0089d616bd32d950858663d6ab3652667c9944128bb52550ddb7a6579c6bfab5"
+    },
+    "evidence/http-transcript.txt": {
+      "bytes": 7771,
+      "sha256": "3b94fd1f64f8890827eabc841464069f1d63c0c537fd6f10a8990f13e57932ce"
+    },
+    "evidence/part2-results.json": {
+      "bytes": 8731,
+      "sha256": "1531d27b2fc9cb0aa9e93935c5b70748fee41390865f3c37b96ffa9ffc1fa814"
+    },
+    "evidence/wordlist-hit.txt": {
+      "bytes": 554,
+      "sha256": "c868af46acdf973d4e21591681e074f2fabad69a5085eb7ecaa87024881f5f6c"
+    }
+  }
+}

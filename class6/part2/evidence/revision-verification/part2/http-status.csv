@@ -1,0 +1,9 @@
+id,check,method,path,expected_status,actual_status,cookie_sent,result,at
+C1,"no credentials at all -> /api/notes/3",GET,/api/notes/3,401,401,False,PASS,2026-11-12T18:49:07+08:00
+C2,"alg:none token (Part 1 style) -> /api/notes/3",GET,/api/notes/3,401,401,False,PASS,2026-11-12T18:49:07+08:00
+C3,"real alice JWT -> /api/notes/1",GET,/api/notes/1,200,200,False,PASS,2026-11-12T18:49:07+08:00
+C4,"real alice JWT -> /api/notes/3 (Class 8 owner check)",GET,/api/notes/3,404,404,False,PASS,2026-11-12T18:49:07+08:00
+C5,"forged teacher JWT -> /api/notes/3",GET,/api/notes/3,200,200,False,PASS,2026-11-12T18:49:07+08:00
+C6,"forged token, signature tampered -> /api/notes/3",GET,/api/notes/3,401,401,False,PASS,2026-11-12T18:49:07+08:00
+C7,"signed token but role=student -> /api/notes/3",GET,/api/notes/3,404,404,False,PASS,2026-11-12T18:49:07+08:00
+C8,"token signed with a wrong key -> /api/notes/3",GET,/api/notes/3,401,401,False,PASS,2026-11-12T18:49:07+08:00

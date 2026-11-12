@@ -1,0 +1,7 @@
+FORGED-TOKEN FINDING - NotesApp flaw #4
+WU YANLAN (2023905420)
+
+What I read: Bob's Mathematics grade 12.6 and comment "Solid work, keep it up.", via /api/notes/3.
+Break 1 (historical Part 1, not rerun): an unsigned alg:none token carrying a teacher claim; see the separate saved report.
+Break 2 (this work): matched s3cr3t from the course wordlist and signed a valid HS256 teacher token.
+Why it worked: accepting none can skip verification; rejecting none still leaves a guessable signing key that lets an attacker sign teacher claims.

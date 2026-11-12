@@ -1,0 +1,9 @@
+wordlist              : C:\Users\Viclant\Desktop\NoteApp\Authentication\Part2-Submission\lab\jwt-secrets.txt
+candidates in list    : 15
+candidates tried      : 8
+recovered HS256 secret: s3cr3t  (6 characters)
+signing input         : eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogNiwgInVzZXJuYW1lIjogImFsaWNlIiwgInJvbGUiOiAic3R1ZGVudCJ9
+computed signature    : U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ
+signature of real JWT : U-mti4NnT0VYTZmqwhJ0XshcLdAB89yRoUed5M-NovQ
+signatures identical  : True
+measured search time  : 0.0004 s

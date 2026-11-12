@@ -1,0 +1,7 @@
+Strong-secret control: http://127.0.0.1:8086
+Wordlist candidates tried: 15
+Wordlist match: none
+X1: 401 - PASS
+X2: 401 - PASS
+X3: 200 - PASS
+Overall: PASS

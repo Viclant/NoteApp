@@ -1,0 +1,40 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>JWT Part 2 - forging a teacher token on NotesApp</title><style>body{font:15px/1.55 Arial,sans-serif;max-width:900px;margin:36px auto;color:#202020}h1{font-size:25px}h2{font-size:19px;margin-top:24px}pre{white-space:pre-wrap;font:13px/1.5 Consolas,monospace;background:#f5f5f5;padding:14px}img{width:100%}table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #ccc;padding:6px;text-align:left}</style><body><h1>JWT Part 2 - forging a teacher token on NotesApp</h1><p>WU YANLAN | Student ID: 2023905420 | Class 6, Part 2 | 12 November 2026</p>
+<h2>Finding</h2>
+<pre>What I read: Bob&#x27;s Mathematics grade 12.6 and comment &quot;Solid work, keep it up.&quot;, via /api/notes/3.
+Break 1 (historical Part 1, not rerun): an unsigned alg:none token carrying a teacher claim; see the separate saved report.
+Break 2 (this work): matched s3cr3t from the course wordlist and signed a valid HS256 teacher token.
+Why it worked: accepting none can skip verification; rejecting none still leaves a guessable signing key that lets an attacker sign teacher claims.</pre>
+<h2>Prediction and record</h2>
+<p>The original Part 2 run did not save a separate pre-run prediction. Before the revision verification, at 18:43:04 UTC+8 on 12 November 2026, the assistant recorded this expectation after reviewing the source and prior results: the weak-key teacher token should work, unsigned or tampered tokens should fail, and the strong-key control should have no wordlist match. This is a revision prediction, not an independent first-attempt prediction. The observed results agreed.</p>
+<h2>What I did and read</h2>
+<p>I used my own local NotesApp copy and synthetic seed data. I logged in only as alice / alicepw, then read the real server-issued JWT from the dashboard. Its header says HS256 and its payload says role=student:</p>
+<pre>header:  {&quot;alg&quot;:&quot;HS256&quot;,&quot;typ&quot;:&quot;JWT&quot;}
+payload: {&quot;user_id&quot;:6,&quot;username&quot;:&quot;alice&quot;,&quot;role&quot;:&quot;student&quot;}</pre>
+<p>The payload is Base64url encoded, not encrypted: I decoded it locally without a key. Reading claims does not prove their authenticity. I computed HMAC-SHA256 over the real header.payload for each wordlist candidate, stopping when candidate 8 of 15, s3cr3t, reproduced the signature. The key is 6 characters, despite the course page&#x27;s inconsistent reference to eight.</p>
+<p>Using the recovered key, I signed a new teacher identity: user_id=2, username=prof.turing, role=teacher. This changed the identity claims, not just the role field. A cookie-free GET /api/notes/3 with that Bearer token returned HTTP 200: bob, Mathematics, grade 12.6, comment &quot;Solid work, keep it up.&quot; No teacher password or teacher session was used.</p>
+<h2>Why rejecting none is not enough</h2>
+<p>The Part 2 instance has JWT_ALLOW_NONE=false. It rejects an unsigned token, but a guessed HS256 key lets me compute a signature that the server accepts. Rejecting none closes the unsigned-token shortcut; it does not stop a correctly signed forged identity when the shared key is guessable.</p>
+<p>A uniformly random 32-character key over an alphabet of A symbols has A^32 possible values; an exhaustive search needs about A^32/2 guesses on average. A 15-entry wordlist cannot recover a key absent from that list. This is a theoretical explanation, not a measured brute-force duration. I did not run the optional long brute force.</p>
+<h2>Timing and scope</h2>
+<p>The preserved final original record at 18:17:28 reports 0.0004 s for 8 guesses, not all 15. The separate revision run at 18:49:07 reports 0.000073 s for 8 guesses. They are separate measurements; earlier auxiliary captures may show another sample. Part 1 was not repeated, and the Class 8 ownership check remained in place.</p>
+<h2>HTTP checks</h2><table>
+<tr><td>Request (all eight script API checks are cookie-free)</td><td>Result</td></tr>
+<tr><td>No credentials -&gt; Bob note 3</td><td>401</td></tr>
+<tr><td>Unsigned alg:none -&gt; Bob note 3</td><td>401</td></tr>
+<tr><td>Real Alice token -&gt; own note 1</td><td>200; grade 16.2</td></tr>
+<tr><td>Real Alice token -&gt; Bob note 3</td><td>404</td></tr>
+<tr><td>Recovered-key teacher token -&gt; Bob note 3</td><td>200; grade 12.6</td></tr>
+<tr><td>Tampered signature -&gt; Bob note 3</td><td>401</td></tr>
+<tr><td>Recovered-key student token -&gt; Bob note 3</td><td>404</td></tr>
+<tr><td>Wrong signing key -&gt; Bob note 3</td><td>401</td></tr>
+</table>
+<h2>Verification and cleanup</h2>
+<p>The revised scripts were run from a relocated copy, from a working directory outside the package, against fresh isolated databases on ports 8085 and 8086. Part 2 passed 8/8 status, body and no-Cookie checks. The optional strong-secret comparison tried all 15 candidates with no match, rejected the old forged token and unsigned token, and accepted a positive-control token signed with its actual private control key: 3/3 passed. That key was supplied only for the owner&#x27;s positive control and was not used by the Part 2 recovery.</p>
+<p>Four error checks passed: missing wordlist, empty wordlist, missing positive-control key, and attempted overwrite of existing evidence all returned nonzero exit codes. The evidence-page helper also made live local requests successfully. Both revision Compose projects were stopped using down without -v; their volumes were retained. Other pre-existing services were left running.</p>
+<h2>What the screenshots prove</h2>
+<p>These three unchanged screenshots are original captures from the earlier local exercise, not new captures of the revision run. The browser picture retains Alice&#x27;s session cookie; its API panel was driven by a real fetch with a forged Bearer token, and its heading and output were annotated by the capture script. The independent script HTTP matrix and curl transcript provide the no-Cookie proof. Normal Host and User-Agent headers may still be present.</p>
+<p>The historical Part 1 report is included under references/part1. It preserves the saved Bob response and explains its evidence limits; it is not presented as a newly repeated Part 1 test. The original images and raw Part 2 results are unchanged. Fresh revision results and cleanup records are stored separately in evidence/revision-verification/.</p>
+<figure><img src="evidence/07-app-ui-forged-teacher.png"><figcaption>Figure 1. Original browser capture: Alice&#x27;s dashboard displays the live response to a forged teacher token. This browser capture carries Alice&#x27;s session cookie; it is not the cookie-free proof.</figcaption></figure>
+<figure><img src="evidence/09-console-forged-teacher.png"><figcaption>Figure 2. Original curl capture: the forged teacher token reads Bob&#x27;s note with HTTP 200; Alice&#x27;s real token receives 404. The recovered key is s3cr3t.</figcaption></figure>
+<figure><img src="evidence/10-console-rejected.png"><figcaption>Figure 3. Original curl capture: unsigned, tampered and anonymous requests are refused with HTTP 401. The API requests do not send a Cookie header.</figcaption></figure>
+<p><a href="https://github.com/KristenPire/epita-security-labs/blob/main/docs/class6/forge-a-token.md">Official Class 6 exercise</a></p></body></html>

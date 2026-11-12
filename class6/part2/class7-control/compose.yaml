@@ -1,0 +1,39 @@
+name: jwt-part2-submission-control
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: notesapp
+      POSTGRES_USER: notesapp
+      POSTGRES_PASSWORD: notesapp_pg_pw_2024
+    volumes:
+      - lab_pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U notesapp -d notesapp"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  web:
+    build: ./web
+    environment:
+      DB_HOST: db
+      DB_NAME: notesapp
+      DB_USER: notesapp
+      POSTGRES_PASSWORD: notesapp_pg_pw_2024
+      JWT_ALLOW_NONE: "false"
+      JWT_SECRET: ${CONTROL_JWT_SECRET:?Run python setup_keys.py first}
+      SECRET_KEY: dev-session-key
+      COMMENT_ENCRYPTION_KEY: ${COMMENT_ENCRYPTION_KEY:?Run python setup_keys.py first}
+      CSV_HMAC_KEY: ${CSV_HMAC_KEY:?Run python setup_keys.py first}
+    ports:
+      - "127.0.0.1:${CONTROL_PORT:-8083}:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  lab_pgdata:
+

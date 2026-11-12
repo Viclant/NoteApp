@@ -183,3 +183,10 @@ A plain `docker compose up` would keep running the old image.
 
 The [Part 1 submission](class6/part1) contains a one-page English lab report,
 the saved result screenshot and a short explanation of the finding.
+
+## C6: Authentication, Part 2
+
+The [Part 2 submission](class6/part2) contains the three-page English report,
+the original screenshots, reproducible lab scripts and verification results.
+Start with the [PDF report](class6/part2/Authentication-Part2-Wu-Yanlan.pdf)
+or the short [finding](class6/part2/FINDING.txt).

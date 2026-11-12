@@ -1,0 +1,13 @@
+{
+  "recorded_at": "2026-11-12T18:43:04.030265+08:00",
+  "author": "assistant",
+  "scope": "Prediction before the revision verification run; not an original first-run prediction.",
+  "basis": "Source inspection and prior-result review. Existing results were already known; this is not an independent student prediction.",
+  "original_first_run_prediction": false,
+  "revision_verification_started_by_this_agent": false,
+  "predictions": [
+    "In the weak classroom-secret instance, a teacher token correctly signed with the recovered HS256 secret will read Bob note 3 with HTTP 200, grade 12.6 and comment Solid work, keep it up.",
+    "Unsigned alg:none and signature-tampered tokens sent without a session cookie will be rejected with HTTP 401.",
+    "In the strong random-secret control instance, the 15-candidate course wordlist will have no match and a teacher token signed with the classroom secret will be rejected with HTTP 401."
+  ]
+}

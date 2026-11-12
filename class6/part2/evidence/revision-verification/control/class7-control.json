@@ -1,0 +1,53 @@
+{
+  "scope": "optional separate strong-secret control",
+  "started_at": "2026-11-12T18:49:07+08:00",
+  "finished_at": "2026-11-12T18:49:07+08:00",
+  "target": "http://127.0.0.1:8086",
+  "wordlist": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission-final\\lab\\jwt-secrets.txt",
+  "wordlist_size": 15,
+  "candidates_tried": 15,
+  "wordlist_match_on_strong_secret": null,
+  "positive_control_key_verified_against_real_jwt": true,
+  "checks": [
+    {
+      "id": "X1",
+      "check": "classroom-key teacher token",
+      "expected_status": 401,
+      "actual_status": 401,
+      "body": {
+        "error": "unauthorized"
+      },
+      "cookie_sent": false,
+      "pass": true
+    },
+    {
+      "id": "X2",
+      "check": "unsigned token",
+      "expected_status": 401,
+      "actual_status": 401,
+      "body": {
+        "error": "unauthorized"
+      },
+      "cookie_sent": false,
+      "pass": true
+    },
+    {
+      "id": "X3",
+      "check": "teacher token signed with the actual control key",
+      "expected_status": 200,
+      "actual_status": 200,
+      "body": {
+        "class_id": 1,
+        "class_name": "Mathematics",
+        "comment": "Solid work, keep it up.",
+        "grade": 12.6,
+        "id": 3,
+        "student": "bob",
+        "student_id": 7
+      },
+      "cookie_sent": false,
+      "pass": true
+    }
+  ],
+  "overall_passed": true
+}

@@ -1,0 +1,31 @@
+{
+  "started_at": "2026-11-12T18:47:42.160022+08:00",
+  "scope": "Relocated copy, fresh independent test databases, no original service changed",
+  "prediction_file": "revision-prediction.json",
+  "passed": false,
+  "lab_app_sha256": "6b509f9c541fdeb055d2a7565a45274884d06b99c4e8080c5676d1ff7f3633bf",
+  "error_type": "RuntimeError",
+  "error": "Command failed: docker compose -p jwt-part2-review-control",
+  "cleanup": [
+    {
+      "project": "jwt-part2-review-weak",
+      "down_exit_code": 0,
+      "remaining_containers": "",
+      "retained_volumes": [
+        "jwt-part2-review-weak_lab_pgdata"
+      ],
+      "volume_deletion_requested": false,
+      "passed": true
+    },
+    {
+      "project": "jwt-part2-review-control",
+      "down_exit_code": 0,
+      "remaining_containers": "",
+      "retained_volumes": [],
+      "volume_deletion_requested": false,
+      "passed": false
+    }
+  ],
+  "cleanup_passed": false,
+  "finished_at": "2026-11-12T18:47:57.692614+08:00"
+}

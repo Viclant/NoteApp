@@ -1,0 +1,33 @@
+{
+  "note": "control run for the Class 7 comparison, appendix only, Part 2 lab untouched",
+  "target": "http://127.0.0.1:8083",
+  "wordlist": "C:\\Users\\Viclant\\Desktop\\NoteApp\\Authentication\\Part2-Submission\\lab\\jwt-secrets.txt",
+  "wordlist_size": 15,
+  "wordlist_match_on_strong_secret": null,
+  "checks": [
+    {
+      "id": "X1",
+      "check": "Part 2 forged teacher token (classroom secret) on the fixed instance",
+      "expected_status": 401,
+      "actual_status": 401,
+      "reason": "UNAUTHORIZED",
+      "body": "{\n  \"error\": \"unauthorized\"\n}"
+    },
+    {
+      "id": "X2",
+      "check": "alg:none token on the fixed instance",
+      "expected_status": 401,
+      "actual_status": 401,
+      "reason": "UNAUTHORIZED",
+      "body": "{\n  \"error\": \"unauthorized\"\n}"
+    },
+    {
+      "id": "X3",
+      "check": "teacher token signed with the real strong secret (sanity check)",
+      "expected_status": 200,
+      "actual_status": 200,
+      "reason": "OK",
+      "body": "{\n  \"class_id\": 1,\n  \"class_name\": \"Mathematics\",\n  \"comment\": \"Solid work, keep it up.\",\n  \"grade\": 12.6,\n  \"id\": 3,\n  \"student\": \"bob\",\n  \"student_id\": 7\n}"
+    }
+  ]
+}

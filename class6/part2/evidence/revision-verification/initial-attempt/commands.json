@@ -1,0 +1,171 @@
+[
+  {
+    "command": [
+      "C:\\Users\\Viclant\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "setup_keys.py"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission\\lab",
+    "exit_code": 0,
+    "elapsed_seconds": 0.059,
+    "output": "Created .env with two different random keys. Keep it to read your encrypted comments.\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-weak",
+      "-f",
+      "compose.yaml",
+      "up",
+      "-d",
+      "--build"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission\\lab",
+    "exit_code": 0,
+    "elapsed_seconds": 8.748,
+    "output": "#1 [internal] load local bake definitions\n#1 reading from stdin 672B done\n#1 DONE 0.0s\n\n#2 [internal] load build definition from Dockerfile\n#2 transferring dockerfile: 1.04kB done\n#2 DONE 0.0s\n\n#3 [internal] load metadata for docker.io/library/python:3.11-slim\n#3 DONE 1.3s\n\n#4 [internal] load .dockerignore\n#4 transferring context: 2B done\n#4 DONE 0.0s\n\n#5 [1/7] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535\n#5 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535 0.0s done\n#5 DONE 0.0s\n\n#6 [internal] load build context\n#6 transferring context: 457B done\n#6 DONE 0.0s\n\n#7 [4/7] COPY requirements.txt .\n#7 CACHED\n\n#8 [2/7] WORKDIR /app\n#8 CACHED\n\n#9 [3/7] RUN apt-get update && apt-get install -y --no-install-recommends iputils-ping     && rm -rf /var/lib/apt/lists/*\n#9 CACHED\n\n#10 [5/7] RUN pip install --no-cache-dir -r requirements.txt\n#10 CACHED\n\n#11 [6/7] COPY . /app\n#11 CACHED\n\n#12 [7/7] RUN mkdir -p /var/log/notesapp /app/backups     && printf 'DB_PASSWORD=notesapp_pg_pw_2024\\nJWT_SECRET=s3cr3t\\n' > /app/config.env     && printf '%s\\n' '-- nightly dump of users table'         'admin:admin123:admin' 'prof.turing:teach123:teacher' > /app/backups/users_backup.sql     && touch /var/log/notesapp/app.log     && chmod -R 0777 /var/log/notesapp /app/backups     && chmod 0666 /app/config.env\n#12 CACHED\n\n#13 exporting to image\n#13 exporting layers done\n#13 exporting manifest sha256:8f23931f66ed3861291a2692e490d2ec802b94f3cbff992ea2570b8025868a8c done\n#13 exporting config sha256:e8af0e67803087ad446e8f0a130ede86cb537a5e407caa8ec66a56fc38028c42 done\n#13 exporting attestation manifest sha256:342141b427d2570e7a44de51d1450a5a24e8ccc5e1cf7a80a9a733a1b565727e 0.0s done\n#13 exporting manifest list sha256:a6ebee08bec3b24d51ee5f6acf97162d6bed08ca1102e342335cd490c1f2c61c done\n#13 naming to docker.io/library/jwt-part2-review-weak-web:latest done\n#13 unpacking to docker.io/library/jwt-part2-review-weak-web:latest done\n#13 DONE 0.1s\n\n#14 resolving provenance for metadata file\n#14 DONE 0.0s\n jwt-part2-review-weak-web  Built\n Network jwt-part2-review-weak_default  Creating\n Network jwt-part2-review-weak_default  Created\n Volume jwt-part2-review-weak_lab_pgdata  Creating\n Volume jwt-part2-review-weak_lab_pgdata  Created\n Container jwt-part2-review-weak-db-1  Creating\n Container jwt-part2-review-weak-db-1  Created\n Container jwt-part2-review-weak-web-1  Creating\n Container jwt-part2-review-weak-web-1  Created\n Container jwt-part2-review-weak-db-1  Starting\n Container jwt-part2-review-weak-db-1  Started\n Container jwt-part2-review-weak-db-1  Waiting\n Container jwt-part2-review-weak-db-1  Healthy\n Container jwt-part2-review-weak-web-1  Starting\n Container jwt-part2-review-weak-web-1  Started\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-weak",
+      "-f",
+      "compose.yaml",
+      "exec",
+      "-T",
+      "web",
+      "sha256sum",
+      "/app/app.py"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission\\lab",
+    "exit_code": 0,
+    "elapsed_seconds": 0.52,
+    "output": "6b509f9c541fdeb055d2a7565a45274884d06b99c4e8080c5676d1ff7f3633bf  /app/app.py\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\Viclant\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "setup_keys.py"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission\\class7-control",
+    "exit_code": 0,
+    "elapsed_seconds": 0.058,
+    "output": "Created missing local keys without replacing existing keys. Keep .env with this control instance.\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-control",
+      "-f",
+      "compose.yaml",
+      "up",
+      "-d",
+      "--build"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission\\class7-control",
+    "exit_code": 1,
+    "elapsed_seconds": 2.285,
+    "output": "#1 [internal] load local bake definitions\n#1 reading from stdin 700B done\n#1 DONE 0.0s\n\n#2 [internal] load build definition from Dockerfile\n#2 DONE 0.0s\n\n#2 [internal] load build definition from Dockerfile\n#2 transferring dockerfile: 1.10kB 0.0s done\n#2 DONE 0.0s\n\n#3 [internal] load metadata for docker.io/library/python:3.11-slim\n#3 DONE 0.2s\n\n#4 [internal] load .dockerignore\n#4 transferring context: 2B done\n#4 DONE 0.0s\n\n#5 [1/7] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535\n#5 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535 0.0s done\n#5 DONE 0.0s\n\n#6 [internal] load build context\n#6 transferring context: 1.53kB done\n#6 DONE 0.0s\n\n#7 [2/7] WORKDIR /app\n#7 CACHED\n\n#8 [3/7] RUN apt-get update && apt-get install -y --no-install-recommends iputils-ping     && rm -rf /var/lib/apt/lists/*\n#8 CACHED\n\n#9 [4/7] COPY requirements.txt .\n#9 CACHED\n\n#10 [5/7] RUN pip install --no-cache-dir -r requirements.txt\n#10 CACHED\n\n#11 [6/7] COPY . /app\n#11 DONE 0.1s\n\n#12 [7/7] RUN mkdir -p /var/log/notesapp /app/backups     && printf 'DB_PASSWORD=notesapp_pg_pw_2024\\nJWT_SECRET=ecd173966e9e67a75a889e58c2d9fc40eb919a02a6ec847979dabb9f16fe9869 > /app/config.env     && printf '%s\\n' '-- nightly dump of users table'         'admin:admin123:admin' 'prof.turing:teach123:teacher' > /app/backups/users_backup.sql     && touch /var/log/notesapp/app.log     && chmod -R 0777 /var/log/notesapp /app/backups     && chmod 0666 /app/config.env\n#12 0.565 /bin/sh: 1: Syntax error: Unterminated quoted string\n#12 ERROR: process \"/bin/sh -c mkdir -p /var/log/notesapp /app/backups     && printf 'DB_PASSWORD=notesapp_pg_pw_2024\\\\nJWT_SECRET=ecd173966e9e67a75a889e58c2d9fc40eb919a02a6ec847979dabb9f16fe9869 > /app/config.env     && printf '%s\\\\n' '-- nightly dump of users table'         'admin:admin123:admin' 'prof.turing:teach123:teacher' > /app/backups/users_backup.sql     && touch /var/log/notesapp/app.log     && chmod -R 0777 /var/log/notesapp /app/backups     && chmod 0666 /app/config.env\" did not complete successfully: exit code: 2\n------\n > [7/7] RUN mkdir -p /var/log/notesapp /app/backups     && printf 'DB_PASSWORD=notesapp_pg_pw_2024\\nJWT_SECRET=ecd173966e9e67a75a889e58c2d9fc40eb919a02a6ec847979dabb9f16fe9869 > /app/config.env     && printf '%s\\n' '-- nightly dump of users table'         'admin:admin123:admin' 'prof.turing:teach123:teacher' > /app/backups/users_backup.sql     && touch /var/log/notesapp/app.log     && chmod -R 0777 /var/log/notesapp /app/backups     && chmod 0666 /app/config.env:\n0.565 /bin/sh: 1: Syntax error: Unterminated quoted string\n------\nDockerfile:16\n\n--------------------\n\n  15 |     # NOTE (flaw #6): these are world-readable/writable and the container stays root.\n\n  16 | >>> RUN mkdir -p /var/log/notesapp /app/backups \\\n\n  17 | >>>     && printf 'DB_PASSWORD=notesapp_pg_pw_2024\\nJWT_SECRET=ecd173966e9e67a75a889e58c2d9fc40eb919a02a6ec847979dabb9f16fe9869 > /app/config.env \\\n\n  18 | >>>     && printf '%s\\n' '-- nightly dump of users table' \\\n\n  19 | >>>         'admin:admin123:admin' 'prof.turing:teach123:teacher' > /app/backups/users_backup.sql \\\n\n  20 | >>>     && touch /var/log/notesapp/app.log \\\n\n  21 | >>>     && chmod -R 0777 /var/log/notesapp /app/backups \\\n\n  22 | >>>     && chmod 0666 /app/config.env\n\n  23 |     \n\n--------------------\n\nfailed to solve: process \"/bin/sh -c mkdir -p /var/log/notesapp /app/backups     && printf 'DB_PASSWORD=notesapp_pg_pw_2024\\\\nJWT_SECRET=ecd173966e9e67a75a889e58c2d9fc40eb919a02a6ec847979dabb9f16fe9869 > /app/config.env     && printf '%s\\\\n' '-- nightly dump of users table'         'admin:admin123:admin' 'prof.turing:teach123:teacher' > /app/backups/users_backup.sql     && touch /var/log/notesapp/app.log     && chmod -R 0777 /var/log/notesapp /app/backups     && chmod 0666 /app/config.env\" did not complete successfully: exit code: 2\n\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-weak",
+      "-f",
+      "compose.yaml",
+      "down"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission\\lab",
+    "exit_code": 0,
+    "elapsed_seconds": 1.367,
+    "output": " Container jwt-part2-review-weak-web-1  Stopping\n Container jwt-part2-review-weak-web-1  Stopped\n Container jwt-part2-review-weak-web-1  Removing\n Container jwt-part2-review-weak-web-1  Removed\n Container jwt-part2-review-weak-db-1  Stopping\n Container jwt-part2-review-weak-db-1  Stopped\n Container jwt-part2-review-weak-db-1  Removing\n Container jwt-part2-review-weak-db-1  Removed\n Network jwt-part2-review-weak_default  Removing\n Network jwt-part2-review-weak_default  Removed\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-weak",
+      "-f",
+      "compose.yaml",
+      "ps",
+      "--all",
+      "--format",
+      "json"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission\\lab",
+    "exit_code": 0,
+    "elapsed_seconds": 0.371,
+    "output": ""
+  },
+  {
+    "command": [
+      "docker",
+      "volume",
+      "ls",
+      "--filter",
+      "label=com.docker.compose.project=jwt-part2-review-weak",
+      "--format",
+      "{{.Name}}"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission\\lab",
+    "exit_code": 0,
+    "elapsed_seconds": 0.132,
+    "output": "jwt-part2-review-weak_lab_pgdata\n"
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-control",
+      "-f",
+      "compose.yaml",
+      "down"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission\\class7-control",
+    "exit_code": 0,
+    "elapsed_seconds": 0.475,
+    "output": ""
+  },
+  {
+    "command": [
+      "docker",
+      "compose",
+      "-p",
+      "jwt-part2-review-control",
+      "-f",
+      "compose.yaml",
+      "ps",
+      "--all",
+      "--format",
+      "json"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission\\class7-control",
+    "exit_code": 0,
+    "elapsed_seconds": 0.444,
+    "output": ""
+  },
+  {
+    "command": [
+      "docker",
+      "volume",
+      "ls",
+      "--filter",
+      "label=com.docker.compose.project=jwt-part2-review-control",
+      "--format",
+      "{{.Name}}"
+    ],
+    "cwd": "C:\\Users\\Viclant\\Documents\\ChatGPT\\noteapp\\tmp\\jwt-part2-final\\relocated-submission\\class7-control",
+    "exit_code": 0,
+    "elapsed_seconds": 0.045,
+    "output": ""
+  }
+]
