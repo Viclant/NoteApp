@@ -1,19 +1,19 @@
 # Class 8 — NotesApp access control
 
-Verification run on 16 November 2026 using the course's seeded demo accounts and grades.
+Wu Yanlan · 16 November 2026
 
 ## Before the fix
 
-At [`08beb32d`](https://github.com/Viclant/NoteApp/commit/08beb32dcd08e2a1a837877a120651959d31c160), the test logged in as `alice` through `POST /login`. With that student session, `GET /api/notes/3` returned **HTTP 200** and Bob's Mathematics grade **12.6**, with the comment “Solid work, keep it up.” The handler accepted a valid student session and returned the requested note without checking its owner.
+I used an automated HTTP test on my local copy of NotesApp. On the [version before the fix](https://github.com/Viclant/NoteApp/commit/08beb32dcd08e2a1a837877a120651959d31c160), the test logged in normally as `alice` and asked for note 3. `GET /api/notes/3` returned **HTTP 200**, Bob's Mathematics grade **12.6**, and the comment “Solid work, keep it up.” The app checked that Alice was logged in and then returned the note without checking who owned it.
 
 ## After the fix
 
-At [`6231c039`](https://github.com/Viclant/NoteApp/commit/6231c039a9346d3f59756c321c4ce4156aae84be), [`api_notes`](https://github.com/Viclant/NoteApp/blob/6231c039a9346d3f59756c321c4ce4156aae84be/web/app.py#L256-L282) checks the note owner against the caller. A student requesting another student's note receives HTTP 404. Teachers and admins can still read the note.
+The fix in `api_notes` compares the note's `student_id` with the logged-in user's ID. Teachers and admins can still read other students' notes. For a student asking for someone else's note, the response is **404 `not found`**. That response keeps the existence of the note hidden from the student. [Fixed handler](https://github.com/Viclant/NoteApp/blob/6231c039a9346d3f59756c321c4ce4156aae84be/web/app.py#L256-L282)
 
 - `alice` → `GET /api/notes/3` → **HTTP 404**, `{"error":"not found"}`.
 - `alice` → `GET /api/notes/1` → **HTTP 200**, Alice's Mathematics grade **16.2**.
-- `prof.turing` → `GET /api/notes/3` → **HTTP 200**, Bob's Mathematics grade **12.6**, with the comment “Solid work, keep it up.” The teacher logged in through `POST /login` and reached `/teacher` before the API request.
+- `prof.turing` → `GET /api/notes/3` → **HTTP 200**, Bob's Mathematics grade **12.6** and the same comment. The test signed in normally as `prof.turing` and reached `/teacher` before making the request.
 
-Each revision ran locally over HTTP on loopback using Python 3.10.6 and a freshly seeded PostgreSQL 18.3 database. Each account used a fresh login session. An unauthenticated request to the same endpoint returned HTTP 401 on both revisions.
+I used a fresh database with the course's demo data for each version and a fresh login session for each account. [Recorded HTTP results](results.json)
 
-[Recorded HTTP results](results.json) · [Lab hand-in requirements](https://github.com/KristenPire/epita-security-labs/blob/main/docs/class8/read-anyones-grade.md#what-you-hand-in)
+[Lab hand-in requirements](https://github.com/KristenPire/epita-security-labs/blob/main/docs/class8/read-anyones-grade.md#what-you-hand-in)
