@@ -1,0 +1,75 @@
+{
+  "date": "2026-11-16",
+  "environment": {
+    "python": "3.10.6",
+    "postgresql": "18.3",
+    "database": "A separate, freshly seeded local database for each Git revision",
+    "authentication": "Normal POST /login and a fresh session cookie for each account"
+  },
+  "before_ownership_fix": {
+    "commit": "08beb32dcd08e2a1a837877a120651959d31c160",
+    "unauthenticated_control_status": 401,
+    "checks": [
+      {
+        "account": "alice",
+        "login_page": "/dashboard",
+        "request": "GET /api/notes/3",
+        "http_status": 200,
+        "response": {
+          "class_id": 1,
+          "class_name": "Mathematics",
+          "comment": "Solid work, keep it up.",
+          "grade": 12.6,
+          "id": 3,
+          "student": "bob",
+          "student_id": 7
+        }
+      }
+    ]
+  },
+  "after_ownership_fix": {
+    "commit": "6231c039a9346d3f59756c321c4ce4156aae84be",
+    "unauthenticated_control_status": 401,
+    "checks": [
+      {
+        "account": "alice",
+        "login_page": "/dashboard",
+        "request": "GET /api/notes/3",
+        "http_status": 404,
+        "response": {
+          "error": "not found"
+        }
+      },
+      {
+        "account": "alice",
+        "login_page": "/dashboard",
+        "request": "GET /api/notes/1",
+        "http_status": 200,
+        "response": {
+          "class_id": 1,
+          "class_name": "Mathematics",
+          "comment": "Late submission, but good quality.",
+          "grade": 16.2,
+          "id": 1,
+          "student": "alice",
+          "student_id": 6
+        }
+      },
+      {
+        "account": "prof.turing",
+        "login_page": "/teacher",
+        "request": "GET /api/notes/3",
+        "http_status": 200,
+        "response": {
+          "class_id": 1,
+          "class_name": "Mathematics",
+          "comment": "Solid work, keep it up.",
+          "grade": 12.6,
+          "id": 3,
+          "student": "bob",
+          "student_id": 7
+        }
+      }
+    ]
+  }
+}
