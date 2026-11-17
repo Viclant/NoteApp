@@ -1,0 +1,40 @@
+diff --git a/web/app.py b/web/app.py
+index 45369e4..bea7079 100644
+--- a/web/app.py
++++ b/web/app.py
+@@ -179,15 +179,16 @@ def login():
+     if request.method == "POST":
+         username = request.form.get("username", "")
+         password = request.form.get("password", "")
+-        # Flaw #8: SQL injection. Query built by string concatenation, no params.
++        # Flaw #8 fixed: parameterised query. The username travels as data in
++        # the driver's parameter envelope, never as SQL grammar.
+         query = (
+             "SELECT id, username, role, password FROM users "
+-            "WHERE username = '" + username + "'"
++            "WHERE username = %s"
+         )
+         conn = get_db()
+         cur = conn.cursor()
+         try:
+-            cur.execute(query)
++            cur.execute(query, (username,))
+             row = cur.fetchone()
+         except Exception as e:
+             # Keep the raw error visible - helps the SQLi session.
+@@ -403,11 +404,12 @@ def admin_ping():
+     if not login_required("admin"):
+         return redirect(url_for("login"))
+     host = request.form.get("host", "")
+-    # Host is concatenated straight into a shell command.
+-    cmd = "ping -c 1 " + host
++    # Flaw #9 fixed: no shell. `host` is one single argv element from start to
++    # finish, so a ";" is just a character in a hostname, not a command separator.
+     try:
+         result = subprocess.run(
+-            cmd, shell=True, capture_output=True, text=True, timeout=10,
++            ["ping", "-c", "1", host],
++            capture_output=True, text=True, timeout=10,
+         )
+         output = result.stdout + result.stderr
+     except Exception as e:

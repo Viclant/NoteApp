@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NotesApp</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">NotesApp</a>
+    
+  </header>
+  <main class="content">
+    
+<div class="card narrow">
+  <h1>Sign in</h1>
+  <p class="error">Invalid credentials.</p>
+  <form method="post" action="/login">
+    <label>Username
+      <input type="text" name="username" autofocus autocomplete="username">
+    </label>
+    <label>Password
+      <input type="password" name="password" autocomplete="current-password">
+    </label>
+    <button type="submit">Log in</button>
+  </form>
+</div>
+
+  </main>
+</body>
+</html>

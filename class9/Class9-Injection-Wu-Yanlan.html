@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Class 9 — Injection</title>
+<style>
+@page { size: A4; margin: 16mm 17mm 15mm; }
+* { box-sizing: border-box; }
+body { margin: 0; color: #20242b; font: 10.5pt/1.42 Arial, "Segoe UI", sans-serif; }
+.page { min-height: 265mm; page-break-after: always; position: relative; }
+.page:last-child { page-break-after: auto; }
+h1 { font-size: 25pt; margin: 0 0 3mm; color: #14283f; }
+h2 { color: #14283f; font-size: 17pt; margin: 0 0 4mm; }
+h3 { color: #27496d; font-size: 12pt; margin: 5mm 0 2mm; }
+.byline { color: #526171; font-size: 11pt; margin-bottom: 8mm; }
+.lead { font-size: 12pt; }
+.callout { border-left: 4px solid #2774c8; background: #f0f5fb; padding: 3mm 4mm; margin: 4mm 0; }
+.warn { border-left-color: #c97623; background: #fff7ec; }
+pre { white-space: pre-wrap; word-break: break-word; background: #f3f5f7; padding: 3mm; border-radius: 2mm; font: 9pt/1.35 Consolas, monospace; }
+.shot { width: 100%; max-height: 130mm; object-fit: contain; border: 1px solid #ccd3dc; border-radius: 2mm; }
+.pair { display: flex; gap: 4mm; margin-top: 3mm; }
+.pair figure { width: 50%; margin: 0; }
+.pair img { width: 100%; max-height: 83mm; object-fit: contain; border: 1px solid #ccd3dc; }
+figcaption { color: #586575; font-size: 8.5pt; margin-top: 1mm; }
+table { border-collapse: collapse; width: 100%; font-size: 9.5pt; margin-top: 3mm; }
+th, td { border: 1px solid #cbd3dd; padding: 2mm; text-align: left; }
+th { background: #edf2f7; }
+.foot { position: absolute; bottom: 0; color: #687585; font-size: 8pt; border-top: 1px solid #d7dde5; width: 100%; padding-top: 2mm; }
+</style>
+</head>
+<body>
+<section class="page">
+  <h1>Class 9 — Injection</h1>
+  <div class="byline">WU YANLAN · Student ID 2023905420</div>
+  <p class="lead">I tested the two injection flaws in the NotesApp lab, fixed them, and replayed the same inputs.</p>
+  <h2>1. SQL injection: password bypass</h2>
+  <p>Before the fresh run, I predicted that <code>admin' -- </code> would log in with any password. The quote ends the username string and <code>--</code> comments out the password condition.</p>
+  <div class="callout"><b>Teacher-version test (commit 8d59164):</b> username <code>admin' -- </code>, password <code>anything</code> → POST /login 302, GET /admin <b>200</b>. With <code>alice' -- </code> and an empty password, Alice's dashboard also opened.</div>
+  <figure>
+    <img class="shot" src="evidence/screenshots/01-alice-sqli-dashboard.png">
+    <figcaption>Figure 1. The literal Alice payload reached the dashboard before the fix.</figcaption>
+  </figure>
+  <div class="foot">Class 9 Injection · WU YANLAN · Evidence captured from the local NotesApp lab</div>
+</section>
+<section class="page">
+  <h2>2. SQL injection fix</h2>
+  <p>The lesson's query joined user input into SQL. I changed it to placeholders and supplied a tuple:</p>
+  <pre>query = (
+    "SELECT id, username, role FROM users "
+    "WHERE username = %s AND password = %s"
+)
+cur.execute(query, (username, password))</pre>
+  <p>After rebuilding, both literal inputs showed “Invalid credentials”; the protected page redirected to login. A normal Alice login still worked.</p>
+  <div class="pair">
+    <figure><img src="evidence/screenshots/02-admin-sqli-page.png"><figcaption>Figure 2. Admin page reached before the fix.</figcaption></figure>
+    <figure><img src="evidence/screenshots/04-alice-blocked.png"><figcaption>Figure 3. The same Alice input after the fix.</figcaption></figure>
+  </div>
+  <div class="callout warn"><b>Version note.</b> The current project has Argon2 from C5, so its password is checked in Python and <code>admin' -- </code> is not a bypass there. I ran the exact lesson payload on the matching old revision. For the current app I kept Argon2 and parameterised the username; both versions and their raw results are separated in the evidence folder.</div>
+  <div class="foot">The complete hand-in and current-app patch are included alongside this report.</div>
+</section>
+<section class="page">
+  <h2>3. Command injection in the ping form</h2>
+  <p>As admin, I entered <code>127.0.0.1; id; head -2 /etc/passwd</code>. The shell treated the semicolons as separators. The output showed <code>uid=0(root)</code> and the first two passwd entries.</p>
+  <figure>
+    <img class="shot" src="evidence/screenshots/03-cmdi-break.png">
+    <figcaption>Figure 4. The vulnerable ping endpoint ran the extra commands.</figcaption>
+  </figure>
+  <p>The problem was constructing a shell command from the host field. I replaced it with an argument list:</p>
+  <pre>result = subprocess.run(
+    ["ping", "-c", "1", host],
+    capture_output=True, text=True, timeout=10,
+)</pre>
+  <div class="foot">The fix makes the host one argument; the shell never re-parses its punctuation.</div>
+</section>
+<section class="page">
+  <h2>4. Retest and normal use</h2>
+  <p>After the fix, I submitted the same injected host again. Ping treated it as one invalid hostname: “Name or service not known.” There was no <code>uid</code> or passwd output.</p>
+  <div class="pair">
+    <figure><img src="evidence/screenshots/05-cmdi-fixed.png"><figcaption>Figure 5. Same command payload after the fix.</figcaption></figure>
+    <figure><img src="evidence/screenshots/07-plain-ping.png"><figcaption>Figure 6. A plain 127.0.0.1 ping still works.</figcaption></figure>
+  </div>
+  <h3>Regression check</h3>
+  <table>
+    <tr><th>Normal feature</th><th>Observed after fixes</th></tr>
+    <tr><td>Alice / alicepw</td><td>Dashboard returned HTTP 200</td></tr>
+    <tr><td>Ping 127.0.0.1</td><td>HTTP 200; 64 bytes received</td></tr>
+  </table>
+  <p><b>Conclusion:</b> parameterised SQL and an argument list close the two injection paths. Normal login and ping remain usable.</p>
+  <figure style="width:55%; margin:3mm auto 0">
+    <img class="shot" style="max-height:47mm" src="evidence/screenshots/06-normal-alice.png">
+    <figcaption>Figure 7. Normal Alice dashboard after the fixes.</figcaption>
+  </figure>
+  <div class="foot">Prediction, request transcripts, and complete requirement checklist: see PREDICTION.txt and REQUIREMENTS-CHECK.md.</div>
+</section>
+</body>
+</html>

@@ -1,0 +1,60 @@
+INJECTION FIX - NotesApp flaws #8 (SQL injection) and #9 (command injection) closed
+
+Name: WU YANLAN
+Student ID: 2023905420
+
+SQLi proof (break):
+  On the version shown in the class document (commit 8d59164):
+  username  admin' --   password  anything
+  -> POST /login 302; GET /admin 200 (Users page)
+  Also tested as Alice:
+  username  alice' --   password  (empty)
+  -> POST /login 302; GET /dashboard 200 (My grades, alice)
+
+SQLi fix:
+  Parameterised query; the database receives inputs as data, not SQL grammar:
+    query = "SELECT id, username, role FROM users WHERE username = %s AND password = %s"
+    cur.execute(query, (username, password))
+  The complete fixed teacher-version source is teacher-version/web/app.py.
+
+SQLi proof (closed):
+  Replaying both exact inputs after the fix -> Invalid credentials;
+  /admin and /dashboard return 302 to the login page.
+  Normal alice/alicepw still reaches the dashboard (HTTP 200).
+
+CmdI proof (break):
+  Admin ping host  127.0.0.1; id; head -2 /etc/passwd
+  -> uid=0(root) gid=0(root) groups=0(root)
+     root:x:0:0:root:/root:/bin/bash
+     daemon:x:1:1:daemon:/usr/sbin/nologin
+
+CmdI fix:
+  admin_ping() passes an argument list to subprocess.run; no shell=True:
+    subprocess.run(["ping", "-c", "1", host],
+                   capture_output=True, text=True, timeout=10)
+
+CmdI proof (closed):
+  Replaying the same host -> Name or service not known; no uid/passwd output.
+  A plain 127.0.0.1 ping still returns 64 bytes from 127.0.0.1.
+
+Screenshots:
+  evidence/screenshots/01-alice-sqli-dashboard.png
+  evidence/screenshots/02-admin-sqli-page.png
+  evidence/screenshots/03-cmdi-break.png
+  evidence/screenshots/04-alice-blocked.png
+  evidence/screenshots/05-cmdi-fixed.png
+  evidence/screenshots/06-normal-alice.png
+  evidence/screenshots/07-plain-ping.png
+
+Version note:
+  The literal SQLi inputs above were tested on an isolated copy of commit 8d59164,
+  whose login query matches the teacher's example. The working NotesApp has since
+  added Argon2 (C5), so its password check is outside SQL and the literal comment
+  payload cannot bypass it. The current app's SQLi was independently confirmed with
+  a UNION payload and fixed without removing Argon2. See README.md and
+  REQUIREMENTS-CHECK.md for the distinction and both sets of raw evidence.
+
+GitHub integration:
+  This submission applies injection-fix.patch to the current root web/app.py
+  and includes the Class 9 evidence. The teacher-version fix is teacher-version/web/app.py
+  and evidence/raw/docver-fresh/docver-fix.patch.

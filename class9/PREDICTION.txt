@@ -1,0 +1,22 @@
+Class 9 Injection — prediction recorded before the fresh run
+
+Name: WU YANLAN
+Student ID: 2023905420
+Date/time: 2026-11-17 18:09 +08:00
+Target: the teacher-document version of NotesApp, commit 8d59164
+
+Before sending any requests, I predict:
+
+1. Logging in with username `admin' -- ` and any password will succeed. The quote
+   should end the username string, and `--` should comment out the SQL password
+   condition, so the database returns the admin row without checking a password.
+2. On the admin ping form, `127.0.0.1; id` should run both commands because the
+   application appends the host to a shell command.
+3. After parameterising the login query and passing username/password as a tuple,
+   the same login input should fail. After changing ping to an argument list with
+   no shell, `id` should no longer run.
+4. Normal credentials (`alice` / `alicepw`) and a plain `127.0.0.1` ping should
+   continue to work.
+
+This prediction is recorded before the fresh request/rebuild run described in
+`REQUIREMENTS-CHECK.md`. It is not backdated to the earlier exploratory run.

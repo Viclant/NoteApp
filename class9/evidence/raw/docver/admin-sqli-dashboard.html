@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NotesApp</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">NotesApp</a>
+    
+      <span class="who">
+        admin
+        <span class="badge badge-admin">admin</span>
+      </span>
+      <a class="logout" href="/logout">Log out</a>
+    
+  </header>
+  <main class="content">
+    
+<div class="card">
+  <h1>My grades</h1>
+  
+  <p>No grades yet.</p>
+  
+</div>
+
+<div class="card">
+  <h2>Grade detail (API)</h2>
+  <p>Look up a single grade by its id.</p>
+  <input type="number" id="noteId" placeholder="note id">
+  <button onclick="loadNote()">Load</button>
+  <pre id="apiOut"></pre>
+</div>
+
+<script>
+  const TOKEN = "[redacted lab JWT]";
+  async function loadNote() {
+    const id = document.getElementById('noteId').value;
+    const res = await fetch('/api/notes/' + id, {
+      headers: { 'Authorization': 'Bearer ' + TOKEN }
+    });
+    const data = await res.json();
+    document.getElementById('apiOut').textContent = JSON.stringify(data, null, 2);
+  }
+</script>
+
+  </main>
+</body>
+</html>
