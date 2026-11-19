@@ -1,0 +1,28 @@
+diff --git a/web/templates/dashboard.html b/web/templates/dashboard.html
+index 6de1e29..bf5b0ce 100644
+--- a/web/templates/dashboard.html
++++ b/web/templates/dashboard.html
+@@ -11,8 +11,8 @@
+         <td>{{ n.id }}</td>
+         <td>{{ n.class_name }}</td>
+         <td>{{ n.grade }}</td>
+-        {# Flaw #10: comment rendered as rich text, autoescaping OFF. #}
+-        <td>{% autoescape false %}{{ n.comment }}{% endautoescape %}</td>
++        {# Flaw #10 fixed: use Jinja's default autoescaping for comment text. #}
++        <td>{{ n.comment }}</td>
+       </tr>
+       {% endfor %}
+     </tbody>
+diff --git a/web/templates/teacher.html b/web/templates/teacher.html
+index 6d9cc10..1885ab3 100644
+--- a/web/templates/teacher.html
++++ b/web/templates/teacher.html
+@@ -45,7 +45,7 @@
+         <td>{{ n.student }}</td>
+         <td>{{ n.class_name }}</td>
+         <td>{{ n.grade }}</td>
+-        <td>{% autoescape false %}{{ n.comment }}{% endautoescape %}</td>
++        <td>{{ n.comment }}</td>
+       </tr>
+       {% endfor %}
+     </tbody>

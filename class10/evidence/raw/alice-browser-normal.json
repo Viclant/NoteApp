@@ -1,0 +1,13 @@
+{
+  "base": "http://127.0.0.1:8087",
+  "url": "http://127.0.0.1:8087/dashboard",
+  "alertObserved": false,
+  "alertMessage": null,
+  "dom": {
+    "title": "NotesApp",
+    "commentText": "score < 10 on part 1 & 2, see me",
+    "commentHTML": "score &lt; 10 on part 1 &amp; 2, see me",
+    "scriptElementPresent": false,
+    "alice": true
+  }
+}

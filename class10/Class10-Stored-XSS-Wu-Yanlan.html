@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Class 10 — Stored XSS</title>
+<style>
+@page { size: A4; margin: 15mm 17mm 14mm; }
+* { box-sizing: border-box; }
+body { margin: 0; color: #20242b; font: 10.4pt/1.4 Arial, "Segoe UI", sans-serif; }
+.page { min-height: 266mm; page-break-after: always; position: relative; }
+.page:last-child { page-break-after: auto; }
+h1 { font-size: 25pt; color: #14283f; margin: 0 0 2mm; }
+h2 { font-size: 17pt; color: #14283f; margin: 0 0 4mm; }
+h3 { font-size: 12pt; color: #27496d; margin: 4mm 0 2mm; }
+.byline { color: #596777; font-size: 11pt; margin-bottom: 6mm; }
+.lead { font-size: 12pt; }
+.callout { border-left: 4px solid #2774c8; background: #f0f5fb; padding: 3mm 4mm; margin: 3mm 0; }
+.safe { border-left-color: #398654; background: #f0f8f2; }
+pre { white-space: pre-wrap; word-break: break-word; background: #f3f5f7; padding: 3mm; border-radius: 2mm; font: 9pt/1.35 Consolas, monospace; }
+figure { margin: 3mm 0; }
+img.full { width: 100%; max-height: 120mm; object-fit: contain; border: 1px solid #cbd3dc; border-radius: 2mm; }
+.pair { display: flex; gap: 4mm; }
+.pair figure { width: 50%; margin: 2mm 0; }
+.pair img { width: 100%; max-height: 87mm; object-fit: contain; border: 1px solid #cbd3dc; }
+figcaption { color: #5c6876; font-size: 8.3pt; margin-top: 1mm; }
+table { border-collapse: collapse; width: 100%; margin-top: 3mm; }
+td, th { border: 1px solid #cbd3dc; padding: 2mm; text-align: left; }
+th { background: #edf2f7; }
+.foot { position: absolute; bottom: 0; width: 100%; border-top: 1px solid #d7dde5; padding-top: 2mm; color: #687585; font-size: 8pt; }
+</style>
+</head>
+<body>
+<section class="page">
+  <h1>Class 10 — Stored XSS</h1>
+  <div class="byline">WU YANLAN · Student ID 2023905420</div>
+  <p class="lead">I stored a script in a grade comment, checked what Alice's browser did, and restored output escaping.</p>
+  <h2>1. The stored comment ran</h2>
+  <p>I logged in as <code>prof.turing</code> and saved this harmless test comment on note 1, Alice's note:</p>
+  <pre>&lt;script&gt;alert('XSS by Eve')&lt;/script&gt;</pre>
+  <p>Alice then logged in normally and opened her dashboard. The response contained a live script element. In a real Edge browser, the dialog event reported:</p>
+  <div class="callout"><b>Page.javascriptDialogOpening</b><br>message: <code>XSS by Eve</code><br>comment cell contained a script element: <b>true</b></div>
+  <figure>
+    <img class="full" src="evidence/screenshots/01-xss-alert.png">
+    <figcaption>Figure 1. Alice's dashboard was open when the Edge dialog fired. The exact dialog event is recorded in evidence/raw/alice-browser-before.json.</figcaption>
+  </figure>
+  <p>The comment is encrypted in the database, but the app decrypts it before rendering. Encryption at rest did not prevent the browser from receiving code.</p>
+  <div class="foot">Stored XSS · local isolated NotesApp lab · harmless alert payload only</div>
+</section>
+<section class="page">
+  <h2>2. I restored autoescaping in both templates</h2>
+  <p>The unsafe wrapper was in <code>dashboard.html</code> and <code>teacher.html</code>. I removed the wrapper and kept the comment variable:</p>
+  <pre>&lt;td&gt;{{ n.comment }}&lt;/td&gt;</pre>
+  <p>After rebuilding, I saved the exact same script comment again. Alice's dashboard showed the characters as text. Edge reported no dialog, and there was no script element in the cell. I checked the teacher page too.</p>
+  <div class="pair">
+    <figure><img src="evidence/screenshots/02-xss-escaped-dashboard.png"><figcaption>Figure 2. Alice's dashboard after the fix.</figcaption></figure>
+    <figure><img src="evidence/screenshots/03-xss-escaped-teacher.png"><figcaption>Figure 3. Teacher view after the fix.</figcaption></figure>
+  </div>
+  <div class="callout safe"><b>Browser result after the fix:</b><br>
+    alertObserved = false<br>
+    commentHTML = <code>&amp;lt;script&amp;gt;alert('XSS by Eve')&amp;lt;/script&amp;gt;</code><br>
+    scriptElementPresent = false</div>
+  <p>The actual DOM text remains <code>&lt;script&gt;alert('XSS by Eve')&lt;/script&gt;</code>; only the HTML representation is escaped.</p>
+  <div class="foot">The patch changes only the two comment cells and leaves Jinja's default escaping enabled.</div>
+</section>
+<section class="page">
+  <h2>3. Normal comments still display correctly</h2>
+  <p>I saved this ordinary comment:</p>
+  <pre>score &lt; 10 on part 1 &amp; 2, see me</pre>
+  <p>Both pages displayed the same readable text. The HTML source used <code>&amp;lt;</code> and <code>&amp;amp;</code>, and the browser created no script element.</p>
+  <div class="pair">
+    <figure><img src="evidence/screenshots/04-normal-comment.png"><figcaption>Figure 4. Normal comment on Alice's dashboard.</figcaption></figure>
+    <figure><img src="evidence/screenshots/05-normal-comment-teacher-view.png"><figcaption>Figure 5. Normal comment in the teacher view.</figcaption></figure>
+  </div>
+  <table>
+    <tr><th>Check</th><th>Observed result</th></tr>
+    <tr><td>Script before fix</td><td>Edge alert: “XSS by Eve”; live script element present</td></tr>
+    <tr><td>Same script after fix</td><td>Displayed as text; no alert; no script element</td></tr>
+    <tr><td>Normal text with &lt; and &amp;</td><td>Readable in dashboard and teacher view</td></tr>
+  </table>
+  <div class="callout safe"><b>Conclusion:</b> letting Jinja escape output by default stopped the stored script in both views while preserving ordinary comments.</div>
+  <p>Both requested templates are committed locally as <code>f0b04cd</code>. The commit has not yet been pushed to GitHub.</p>
+  <div class="foot">Prediction and full requirement-by-requirement test notes are included in this hand-in folder.</div>
+</section>
+</body>
+</html>

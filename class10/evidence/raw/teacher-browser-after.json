@@ -1,0 +1,13 @@
+{
+  "base": "http://127.0.0.1:8087",
+  "url": "http://127.0.0.1:8087/teacher",
+  "alertObserved": false,
+  "alertMessage": null,
+  "dom": {
+    "title": "NotesApp",
+    "commentText": "<script>alert('XSS by Eve')</script>",
+    "commentHTML": "&lt;script&gt;alert('XSS by Eve')&lt;/script&gt;",
+    "scriptElementPresent": false,
+    "alice": true
+  }
+}
