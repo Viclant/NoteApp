@@ -1,0 +1,32 @@
+{
+  "recorded_at": "2026-11-19T16:05:59+08:00",
+  "base_commit": "d624cdd4f74c27a1e7827cb5396d3e5448e95804",
+  "existing_unit_tests": {
+    "command": "python -m unittest discover -s . -p test_*.py -v (cwd: web)",
+    "passed": true,
+    "count": 23
+  },
+  "template_render_checks": [
+    {
+      "template": "dashboard.html",
+      "case": "lesson_script_as_text",
+      "passed": true
+    },
+    {
+      "template": "dashboard.html",
+      "case": "normal_comparison_and_ampersand",
+      "passed": true
+    },
+    {
+      "template": "teacher.html",
+      "case": "lesson_script_as_text",
+      "passed": true
+    },
+    {
+      "template": "teacher.html",
+      "case": "normal_comparison_and_ampersand",
+      "passed": true
+    }
+  ],
+  "scope": "Offline rendering of the submitted root templates; no database or browser sessions used."
+}

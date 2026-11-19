@@ -1,0 +1,22 @@
+Class 10 Stored XSS — pre-run prediction
+
+Recorded: 2026-11-18 16:45 (+08:00), before sending the test comment
+Target: an isolated local copy of NotesApp at 127.0.0.1:8087
+
+The dashboard template turns autoescaping off around each comment. I predict that
+when the teacher saves the harmless test string
+
+    <script>alert('XSS by Eve')</script>
+
+on Alice's note 1, the saved comment will be returned in Alice's dashboard as a
+literal script element. A real browser opening that dashboard will execute it and
+show the alert. `curl` can confirm the raw HTML, but cannot execute JavaScript.
+
+After removing the `autoescape false` wrapper in both dashboard.html and
+teacher.html, I predict that the same comment will be HTML-escaped and displayed
+as text, with no alert. A normal comment containing `<`, `>` and `&` should still
+display correctly after the fix.
+
+This is a draft prediction based on the teacher's instructions, recorded before
+the baseline request. The student should review it and put it in their own words
+before submitting if required by the course.

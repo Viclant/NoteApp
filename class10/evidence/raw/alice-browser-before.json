@@ -1,0 +1,13 @@
+{
+  "base": "http://127.0.0.1:8087",
+  "url": "http://127.0.0.1:8087/dashboard",
+  "alertObserved": true,
+  "alertMessage": "XSS by Eve",
+  "dom": {
+    "title": "NotesApp",
+    "commentText": "alert('XSS by Eve')",
+    "commentHTML": "<script>alert('XSS by Eve')</script>",
+    "scriptElementPresent": true,
+    "alice": true
+  }
+}

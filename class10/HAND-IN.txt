@@ -1,0 +1,40 @@
+STORED XSS FIX - NotesApp flaw #10 closed
+
+Name: WU YANLAN
+Student ID: 2023905420
+
+Break:
+  As prof.turing, I saved this comment on note 1 (Alice):
+    <script>alert('XSS by Eve')</script>
+  Alice opened /dashboard in a real Edge browser. The browser opened a JavaScript
+  dialog with message "XSS by Eve". The raw response contained the literal
+  <script>alert('XSS by Eve')</script> in the comment cell.
+
+Fix:
+  I removed the autoescape false wrapper from both:
+    web/templates/dashboard.html
+    web/templates/teacher.html
+  Jinja's default autoescaping is now used for comments.
+
+Closed:
+  I saved and opened the same script comment again as Alice. No dialog appeared;
+  the comment cell's HTML was
+    &lt;script&gt;alert('XSS by Eve')&lt;/script&gt;
+  and it contained no script element. The teacher view was also checked.
+
+Real use still works:
+  "score < 10 on part 1 & 2, see me" remains readable on Alice's dashboard and the
+  teacher page. The browser DOM text is unchanged; `<` and `&` are escaped in HTML.
+
+Code submission:
+  codex/class10-submission, based on main at d624cdd.
+  Both root templates include class10-fix.patch.
+  The original isolated-lab fix was local commit f0b04cd.
+  See SUBMISSION-NOTES.md for the submission checks and evidence corrections.
+
+Evidence:
+  evidence/raw/alice-browser-before.json records alertObserved=true and message
+  "XSS by Eve".
+  evidence/raw/alice-browser-after.json and teacher-browser-after.json record
+  alertObserved=false and scriptElementPresent=false.
+  See REQUIREMENTS-CHECK.md for the complete test table.
