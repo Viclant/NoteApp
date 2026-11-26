@@ -4,6 +4,7 @@ Deliberately insecure teaching app for the EPITA Computer Security course.
 Do not deploy this anywhere real.
 """
 import os
+import secrets
 import csv
 import io
 import json
@@ -40,6 +41,28 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "dev-session-key")
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+
+
+def csrf_token():
+    """Return the per-session secret printed in NotesApp's own forms."""
+    if "csrf" not in session:
+        session["csrf"] = secrets.token_urlsafe(32)
+    return session["csrf"]
+
+
+app.jinja_env.globals["csrf_token"] = csrf_token
+
+
+@app.before_request
+def check_csrf():
+    """Require a matching token on every state-changing POST except login."""
+    if request.method == "POST" and request.endpoint != "login":
+        expected = session.get("csrf")
+        sent = request.form.get("csrf_token", "")
+        if not expected or not sent.isascii() or not hmac.compare_digest(sent, expected):
+            abort(400, "CSRF token missing or wrong")
+
 ph = PasswordHasher()
 
 
@@ -307,7 +330,7 @@ def teacher():
 
 @app.route("/grades", methods=["POST"])
 def grades():
-    # Flaw #11: no CSRF token checked on this state-changing POST.
+    # Flaw #11 fixed: the global before_request hook checks this POST.
     if not login_required("teacher"):
         return redirect(url_for("login"))
     note_id = request.form.get("note_id", "").strip()
@@ -399,7 +422,8 @@ def admin():
 
 @app.route("/admin/ping", methods=["POST"])
 def admin_ping():
-    # Flaw #11: no CSRF token. Flaw #9: command injection via os/system shell.
+    # Flaw #11 fixed: the global before_request hook checks this POST.
+    # Flaw #9: command injection via os/system shell.
     if not login_required("admin"):
         return redirect(url_for("login"))
     host = request.form.get("host", "")

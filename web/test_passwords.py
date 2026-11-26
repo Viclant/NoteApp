@@ -118,9 +118,11 @@ class PasswordTests(unittest.TestCase):
         with self.client.session_transaction() as session:
             session["user_id"] = 1
             session["role"] = "admin"
+            session["csrf"] = "unit-test-csrf-token"
         response = self.client.post("/admin/users", data={
             "action": "create", "username": "new.student",
             "password": "new-password", "role": "student",
+            "csrf_token": "unit-test-csrf-token",
         })
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(self.database.created_users), 1)
