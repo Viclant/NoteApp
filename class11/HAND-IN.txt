@@ -1,0 +1,17 @@
+Class 11 CSRF hand-in
+
+Break
+In the isolated browser lab, grade 10 changed from 9.1 to 19.5 before the fix.
+
+Fix
+NotesApp issues a random token per session and validates it on each POST
+except login. The teacher grade form and all three admin form types include
+the token. The session cookie uses SameSite=Lax.
+
+Closed
+The isolated lab recorded HTTP 400 for the same request after the fix.
+Grade 10 stayed at 19.5.
+
+Real use still works
+The recorded lab checks passed for the teacher saving a grade, the admin
+adding a user, and the admin ping form.
